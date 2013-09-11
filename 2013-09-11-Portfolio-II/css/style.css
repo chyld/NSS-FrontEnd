@@ -1,0 +1,59 @@
+@import url(http://fonts.googleapis.com/css?family=Hanalei+Fill);
+@import url(http://fonts.googleapis.com/css?family=Cinzel);
+
+body
+{
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  background-color: #ffff66;
+}
+
+#logoimg
+{
+  float: left;
+  width: 50px;
+}
+
+#logotxt
+{
+  float: left;
+  width: 400px;
+  font-family: 'Hanalei Fill', cursive;
+  font-size: 35px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.clear
+{
+  float: none;
+  clear: both;
+}
+
+section > h2
+{
+  font-size: 25px;
+}
+
+ul
+{
+  list-style: outside circle;
+  padding-left: 50px;
+}
+
+section > p
+{
+  padding: 10px;
+  line-height: 20px;
+}
+
+section > p:nth-of-type(2n)
+{
+  font-style: italic;
+  color: blue;
+}
+
+a:hover
+{
+  background-color: red;
+}
