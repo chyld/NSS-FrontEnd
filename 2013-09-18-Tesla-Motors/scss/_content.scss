@@ -1,0 +1,23 @@
+div#content
+{
+  section
+  {
+    h1
+    {
+      font-size: $normal_font_size + 8px;
+      color: $tesla_red;
+    }
+
+    h2
+    {
+      font-size: $normal_font_size + 6px;
+      color: desaturate($tesla_red, 50%);
+    }
+
+    p
+    {
+      font-size: $normal_font_size;
+      color: $reading_color;
+    }
+  }
+}
