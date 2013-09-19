@@ -21,14 +21,29 @@ nav ul {
     display: inline-block; }
 
 div#content section h1 {
+  color: #c60b0b;
+  font-family: "Graduate", cursive;
   font-size: 20px;
-  color: #c60b0b; }
+  line-height: 20px;
+  letter-spacing: 5px; }
 div#content section h2 {
+  color: #923f3f;
+  font-family: "Graduate", cursive;
   font-size: 18px;
-  color: #923f3f; }
+  line-height: 20px;
+  letter-spacing: 3px; }
 div#content section p {
-  font-size: 12px;
-  color: #757575; }
+  color: #ff0033;
+  font-family: "Graduate", cursive;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  margin: 5px;
+  padding: 10px;
+  border: 2px dashed green;
+  border-radius: 15px;
+  background-color: blue;
+  box-shadow: 5px 5px 10px black; }
 
 footer p {
   font-size: 8px;

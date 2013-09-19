@@ -4,20 +4,18 @@ div#content
   {
     h1
     {
-      font-size: $normal_font_size + 8px;
-      color: $tesla_red;
+      @include font_fn($tesla_red, $brand_font, $normal_font_size + 8px, 20px, 5px);
     }
 
     h2
     {
-      font-size: $normal_font_size + 6px;
-      color: desaturate($tesla_red, 50%);
+      @include font_fn(desaturate($tesla_red, 50%), $brand_font, $normal_font_size + 6px, 20px, 3px);
     }
 
     p
     {
-      font-size: $normal_font_size;
-      color: $reading_color;
+      @include font_fn(#ff0033, $brand_font, 14px, 20px);
+      @include box_fn(5px, 10px, 2px dashed green, 5px 5px 10px black, 15px, blue);
     }
   }
 }

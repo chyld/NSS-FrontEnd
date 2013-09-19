@@ -1,0 +1,18 @@
+@mixin font_fn($color, $font-family, $font-size, $line-height, $letter-spacing: 1px)
+{
+  color: $color;
+  font-family: $font-family;
+  font-size: $font-size;
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
+}
+
+@mixin box_fn($margin, $padding, $border, $box-shadow, $border-radius: 10px, $background-color: red)
+{
+  margin: $margin;
+  padding: $padding;
+  border: $border;
+  border-radius: $border-radius;
+  background-color: $background-color;
+  box-shadow: $box-shadow;
+}
