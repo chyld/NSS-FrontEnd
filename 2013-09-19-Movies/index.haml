@@ -8,7 +8,7 @@
   %body
     .main
       %header
-        %h1 Movie Time 5
+        %h1 Movie List
       %nav
         %ul
           %li
@@ -18,25 +18,7 @@
           %li
             %a{href: '#'} Lord of the Rings
       %section
-        %h1 Jaws
-        %h2 Attack of the shark
-        %p
-          %span hello
-          %span
-            %strong world
-        %p
-          this is a very
-          %strong long
-          sentance so it goes over
-          multiple lines
-        %p#fun
-          this is a fun id :)
-        %p.classy
-          this p tag is very classy ... lol
-        %p#oh.really.yes
-          this p tag has an id of oh and 2 classes
-        #a_div
-          this is just a div with an id of a_div
-        .classy_div
-          this is one classy div
+        = Haml::Engine.new(File.read('movies/_jaws.haml')).render
+        = Haml::Engine.new(File.read('movies/_lotr.haml')).render
+        = Haml::Engine.new(File.read('movies/_titantic.haml')).render
       %footer
