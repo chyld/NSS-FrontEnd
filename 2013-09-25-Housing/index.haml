@@ -1,0 +1,13 @@
+!!! 5
+%html{lang: 'en'}
+  %head
+    %meta{charset: 'utf-8'}
+    %title HAML & SASS Template
+    %link{rel: 'stylesheet', href: 'css/normalize.css'}
+    %link{rel: 'stylesheet', href: 'css/style.css'}
+    %script{src: 'js/main.js'}
+  %body
+    = Haml::Engine.new(File.read('haml/_header.haml')).render
+    = Haml::Engine.new(File.read('haml/_nav.haml')).render
+    = Haml::Engine.new(File.read('haml/_content.haml')).render
+    = Haml::Engine.new(File.read('haml/_footer.haml')).render
