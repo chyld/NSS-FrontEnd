@@ -15,5 +15,15 @@ function filter_short_strings(strings)
 
 function filter_a_strings(strings)
 {
-  return _.filter(strings, function(string){return string[0].toLowerCase() == 'a' ;});
+  return _.filter(strings, function(string){return string[0].toLowerCase() == 'a';});
+}
+
+function find_string(strings, word)
+{
+  return _.find(strings, function(string){return string == word;});
+}
+
+function find_string_ending_letter(strings, letter)
+{
+  return _.find(strings, function(string){return string[string.length - 1] == letter;});
 }

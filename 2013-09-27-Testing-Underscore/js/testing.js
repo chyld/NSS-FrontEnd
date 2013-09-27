@@ -24,6 +24,14 @@ test( "Filter 'A' Strings", function() {
 
 test( "Find a String", function() {
   var strings = ["apple", "hello", "there", "a", "the", "cat", "Aardvark", "elephant", "encyclopedia"];
-  var expected = "elephant";
-  deepEqual(find_string(strings, "elephant"), expected, "should find the string in the array" );
+  deepEqual(find_string(strings, "elephant"), "elephant", "should find the elephant");
+  deepEqual(find_string(strings, "Aardvark"), "Aardvark", "should find the Aardvark");
+  deepEqual(find_string(strings, "cat"), "cat", "should find the cat");
+  deepEqual(find_string(strings, "not here"), undefined, "should not find the string");
+});
+
+test( "Find a String Ending in a particular Letter", function() {
+  var strings = ["dog", "cats", "lion", "tigers"];
+  deepEqual(find_string_ending_letter(strings, "s"), "cats", "should find the word ending in s");
+  deepEqual(find_string_ending_letter(strings, "z"), undefined, "should not find the word ending in z");
 });
