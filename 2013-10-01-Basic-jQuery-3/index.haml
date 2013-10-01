@@ -1,0 +1,25 @@
+!!! 5
+%html{lang: 'en'}
+  %head
+    %meta{charset: 'utf-8'}
+    %title Template
+    %link{rel: 'stylesheet', href: 'css/normalize.css'}
+    %link{rel: 'stylesheet', href: 'css/style.css'}
+  %body
+    #a A
+    #b B
+    #c C
+    %p#d.e D
+    %p#e.e E
+    %p#f.e F
+
+    %input#num1{type: 'text'}
+    %span.sym +
+    %input#num2{type: 'text'}
+    %span.sym =
+    %span#result
+    %input#add{type: 'button', value: 'Add!'}
+
+    %script{src: 'js/jquery-1.10.2.min.js'}
+    %script{src: 'js/underscore-min.js'}
+    %script{src: 'js/main.js'}

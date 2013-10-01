@@ -1,0 +1,17 @@
+!!! 5
+%html{lang: 'en'}
+  %head
+    %meta{charset: 'utf-8'}
+    %title Template
+    %link{rel: 'stylesheet', href: 'css/normalize.css'}
+    %link{rel: 'stylesheet', href: 'css/style.css'}
+  %body
+    %h1 Pig Latin Conversion
+    %input#original{type: 'text'}
+    %span =>
+    %input#piglatin{type: 'text', readonly: true}
+    %input#pig{type: 'button', value: 'Pig!'}
+
+    %script{src: 'js/jquery-1.10.2.min.js'}
+    %script{src: 'js/underscore-min.js'}
+    %script{src: 'js/main.js'}
