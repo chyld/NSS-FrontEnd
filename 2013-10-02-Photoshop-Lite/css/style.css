@@ -5,6 +5,13 @@
   border: 1px dashed black;
   margin: 10px; }
 
+.canvas {
+  float: left;
+  width: 10px;
+  height: 10px;
+  margin: 2px;
+  border: 1px dashed #252525; }
+
 #brush {
   border: 1px dashed black;
   padding: 3px 25px;
