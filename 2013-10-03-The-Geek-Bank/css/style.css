@@ -1,0 +1,27 @@
+body {
+  padding: 50px;
+  background-color: #99ccff; }
+
+#logo {
+  border: 1px solid #cccccc;
+  width: 100px;
+  height: 100px; }
+
+#transactions {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black; }
+
+#deposits, #withdraws {
+  float: left;
+  width: 300px; }
+
+.deposit {
+  padding: 5px;
+  color: green; }
+
+.withdraw {
+  padding: 5px;
+  color: red; }
+
+.clear {
+  clear: both; }

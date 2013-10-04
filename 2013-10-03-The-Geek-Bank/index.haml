@@ -1,0 +1,36 @@
+!!! 5
+%html{lang: 'en'}
+  %head
+    %meta{charset: 'utf-8'}
+    %title Template
+    %link{rel: 'stylesheet', href: 'css/normalize.css'}
+    %link{rel: 'stylesheet', href: 'css/style.css'}
+  %body
+    %header
+      %h1 The Geek Bank
+      %img#logo
+      #logo_controls
+        %input#logo_url{type: 'text', autofocus: true, placeholder: 'Enter URL of Image'}
+        %input#set_logo{type: 'button', value: 'Set Logo'}
+
+    %section
+      %h3#balance $0.00
+      #balance_controls
+        %input#balance_txt{type: 'text', placeholder: '2500'}
+        %input#set_balance{type: 'button', value: 'Set Balance'}
+
+    %section
+      %input#amount{type: 'text', placeholder: '300'}
+      %input#deposit{type: 'button', value: 'Deposit'}
+      %input#withdraw{type: 'button', value: 'Withdraw'}
+
+    %section
+      %h1 Transaction List
+      #transactions
+        %ul#deposits
+        %ul#withdraws
+        .clear
+
+    %script{src: 'js/jquery-1.10.2.min.js'}
+    %script{src: 'js/underscore-min.js'}
+    %script{src: 'js/main.js'}
