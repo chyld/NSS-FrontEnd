@@ -1,0 +1,27 @@
+!!! 5
+%html{lang: 'en'}
+  %head
+    %meta{charset: 'utf-8'}
+    %title Template
+    %link{rel: 'stylesheet', href: 'css/normalize.css'}
+    %link{rel: 'stylesheet', href: 'css/style.css'}
+  %body
+    %h1 Todo
+    %section
+      %input#date{type: 'text'}
+      %input#task{type: 'text'}
+      %input#color{type: 'text'}
+      %input#add{type: 'button', value: 'Add Task'}
+
+    %table
+      %tr.home
+        %th Date
+        %th Task
+        %th Color
+        %th Done?
+        %th Remove?
+        %th Up/Down
+
+    %script{src: 'js/jquery-1.10.2.min.js'}
+    %script{src: 'js/underscore-min.js'}
+    %script{src: 'js/main.js'}
