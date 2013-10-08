@@ -5,7 +5,29 @@ $(document).ready(initialize);
 function initialize(){
   $(document).foundation();
   $('#search').click(searchFlickr);
+  $('#clear').click(clear);
+  $('#delete').click(deleteImages);
+  $('#save').click(saveImages);
   $('#photos').on('dblclick', '.photo', removeImage);
+  $('#photos').on('click', '.photo', selectImage);
+}
+
+function saveImages(){
+  var $selectedImages = $('.selected');
+  $selectedImages.removeClass('selected');
+  $('#saved-photos').prepend($selectedImages);
+}
+
+function deleteImages(){
+  $('.selected').remove();
+}
+
+function selectImage(){
+  $(this).toggleClass('selected');
+}
+
+function clear(){
+  $('#photos').empty();
 }
 
 function removeImage(){
