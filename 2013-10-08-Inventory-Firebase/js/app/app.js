@@ -1,6 +1,7 @@
 'use strict';
 
 var db;
+var items;
 
 $(document).ready(initialize);
 
@@ -9,6 +10,7 @@ function initialize(){
   $('#add').click(add);
   $('#save').click(save);
   db = new Firebase('https://inventory-cm.firebaseio.com/');
+  items = db.child('items');
 
   db.on('value', function(snapshot) {
     var inventory = snapshot.val();
@@ -44,6 +46,16 @@ function add(){
   $row.children('.room').text(room);
   $row.children('.condition').text(condition);
   $row.children('.date').text(date);
+
+  var item = {};
+  item.name = name;
+  item.count = count;
+  item.value = value;
+  item.room = room;
+  item.condition = condition;
+  item.date = date;
+
+  items.push(item);
 
   $('#items').append($row);
 }
