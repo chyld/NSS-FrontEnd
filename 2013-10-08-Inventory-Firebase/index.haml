@@ -1,0 +1,54 @@
+!!! 5
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+%head
+  %meta{charset: "utf-8"}
+  %meta{name: "viewport", content: "width=device-width"}
+  %title Foundation 4
+  %link{rel: "stylesheet", href: "css/normalize.css"}
+  %link{rel: "stylesheet", href: "css/foundation.css"}
+  %link{rel: "stylesheet", href: "css/app.css"}
+  %script{src: "js/vendor/custom.modernizr.js"}
+%body
+  .row
+    .small-12.columns
+      %h1 Inventory System
+  .row
+    .small-2.columns
+      %input#person{type: 'text', placeholder: 'Full Name'}
+    .small-8.columns
+      %input#address{type: 'text', placeholder: 'Address'}
+    .small-2.columns
+      %input#save.button.small.radius{type: 'button', value: 'Save'}
+
+  .row
+    .small-2.columns
+      %input#name{type: 'text', autofocus: true, placeholder: 'Item Name'}
+    .small-1.columns
+      %input#count{type: 'text', placeholder: 'Count'}
+    .small-1.columns
+      %input#value{type: 'text', placeholder: 'Cost'}
+    .small-2.columns
+      %input#room{type: 'text', placeholder: 'Which Room'}
+    .small-2.columns
+      %input#condition{type: 'text', placeholder: 'Item Condition'}
+    .small-2.columns
+      %input#date{type: 'text', placeholder: 'Purchase Date'}
+    .small-2.columns
+      %input#add.button.small.success.radius{type: 'button', value: 'Add Item'}
+  .row
+    .small-12.columns
+      %table#items
+        %tr
+          %th Name
+          %th Count
+          %th Cost
+          %th Room
+          %th Condition
+          %th Purchase Date
+
+  %script{src: 'js/vendor/jquery-1.10.2.js'}
+  %script{src: 'js/vendor/foundation.min.js'}
+  %script{src: 'js/vendor/underscore.js'}
+  %script{src: 'https://cdn.firebase.com/v0/firebase.js'}
+  %script{src: 'js/app/app.js'}
