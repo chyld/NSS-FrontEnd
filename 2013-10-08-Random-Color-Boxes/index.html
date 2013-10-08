@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset='utf-8'>
+  <meta content='width=device-width' name='viewport'>
+  <title>Foundation 4</title>
+  <link href='css/normalize.css' rel='stylesheet'>
+  <link href='css/foundation.css' rel='stylesheet'>
+  <link href='css/app.css' rel='stylesheet'>
+  <script src='js/vendor/custom.modernizr.js'></script>
+</head>
+<body>
+  <div class='row'>
+    <div class='small-12 columns'>
+      <h1>Random Color Boxes</h1>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-3 columns'>
+      <input autofocus id='dimensions' placeholder='Enter box dimensions' type='text'>
+    </div>
+    <div class='small-3 columns'>
+      <input id='delay' placeholder='Enter delay in seconds' type='text'>
+    </div>
+    <div class='small-6 columns'>
+      <input class='button small success radius' id='start' type='button' value='Start'>
+      <input class='button small alert radius' id='stop' type='button' value='Stop'>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-12 columns'>
+      <div id='colors'></div>
+    </div>
+  </div>
+  <script src='js/vendor/jquery-1.10.2.js'></script>
+  <script src='js/vendor/foundation.min.js'></script>
+  <script src='js/vendor/underscore.js'></script>
+  <script src='js/app/app.js'></script>
+</body>
