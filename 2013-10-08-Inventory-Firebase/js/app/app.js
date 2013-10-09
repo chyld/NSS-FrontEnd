@@ -13,7 +13,12 @@ function initialize(){
 
   Δdb = new Firebase('https://inventory-cm.firebaseio.com/');
   Δitems = Δdb.child('items');
-  Δdb.on('value', receiveDb);
+  Δdb.once('value', receiveDb);
+  Δitems.on('child_added', childAdded);
+}
+
+function childAdded(snapshot){
+  console.log(snapshot.val());
 }
 
 function receiveDb(snapshot){
@@ -21,10 +26,11 @@ function receiveDb(snapshot){
   $('#person').val(inventory.fullName);
   $('#address').val(inventory.address);
 
-  if(inventory.items){
-    items = inventory.items;
-  } else {
-    items = [];
+  items = [];
+
+  for(var property in inventory.items){
+    var item = inventory.items[property];
+    items.push(item);
   }
 
   var $header = $('#items tr:first-child').detach();
@@ -60,8 +66,7 @@ function add(){
   item.condition = condition;
   item.date = date;
 
-  items.push(item);
-  Δitems.set(items);
+  Δitems.push(item);
 }
 
 function createRow(item){
