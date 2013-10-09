@@ -2,7 +2,8 @@
 
 var Δdb;
 var Δitems;
-var items;
+var items = [];
+var grandTotal = 0;
 
 $(document).ready(initialize);
 
@@ -18,26 +19,21 @@ function initialize(){
 }
 
 function childAdded(snapshot){
-  console.log(snapshot.val());
+  var item = snapshot.val();
+  items.push(item);
+  createRow(item);
+  updateGrandTotal(item);
 }
 
 function receiveDb(snapshot){
   var inventory = snapshot.val();
   $('#person').val(inventory.fullName);
   $('#address').val(inventory.address);
+}
 
-  items = [];
-
-  for(var property in inventory.items){
-    var item = inventory.items[property];
-    items.push(item);
-  }
-
-  var $header = $('#items tr:first-child').detach();
-  $('#items').empty().append($header);
-  for(var i = 0; i < items.length; i++){
-    createRow(items[i]);
-  }
+function updateGrandTotal(item){
+  grandTotal += (item.count * item.value);
+  $('#grand-total').text('$' + grandTotal + '.00');
 }
 
 function save(){
@@ -52,8 +48,8 @@ function save(){
 
 function add(){
   var name = $('#name').val();
-  var count = $('#count').val();
-  var value = $('#value').val();
+  var count = parseInt($('#count').val(), 10);
+  var value = parseInt($('#value').val(), 10);
   var room = $('#room').val();
   var condition = $('#condition').val();
   var date = $('#date').val();
@@ -75,7 +71,7 @@ function createRow(item){
 
   $row.children('.name').text(item.name);
   $row.children('.count').text(item.count);
-  $row.children('.value').text(item.value);
+  $row.children('.value').text('$' + item.value + '.00');
   $row.children('.room').text(item.room);
   $row.children('.condition').text(item.condition);
   $row.children('.date').text(item.date);
