@@ -28,9 +28,9 @@ function initialize(){
 
 function itemAdded(snapshot){
   var item = snapshot.val();
-  items.push(item);
   createRow(item);
   updateGrandTotal(item);
+  db.items.push(item);
 }
 
 function personChanged(snapshot){
@@ -39,16 +39,15 @@ function personChanged(snapshot){
   try{
     $('#person').val(person.fullName);
     $('#address').val(person.address);
+    db.person = person;
   } catch(e) {
     console.log(e);
   }
-
-  console.log(person);
 }
 
 function updateGrandTotal(item){
-  grandTotal += (item.count * item.value);
-  $('#grand-total').text('$' + grandTotal + '.00');
+  db.statistics.grandTotal += (item.count * item.value);
+  $('#grand-total').text('$' + db.statistics.grandTotal + '.00');
 }
 
 function save(){
