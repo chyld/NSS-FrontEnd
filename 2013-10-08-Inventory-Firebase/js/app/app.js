@@ -1,9 +1,16 @@
 'use strict';
 
+// Database Schema
 var Δdb;
 var Δitems;
-var items = [];
-var grandTotal = 0;
+var Δperson;
+
+// Local Schema
+var db = {};
+db.person = {};
+db.items = [];
+db.statistics = {};
+db.statistics.grandTotal = 0;
 
 $(document).ready(initialize);
 
@@ -14,21 +21,29 @@ function initialize(){
 
   Δdb = new Firebase('https://inventory-cm.firebaseio.com/');
   Δitems = Δdb.child('items');
-  Δdb.once('value', receiveDb);
-  Δitems.on('child_added', childAdded);
+  Δperson = Δdb.child('person');
+  Δperson.on('value', personChanged);
+  Δitems.on('child_added', itemAdded);
 }
 
-function childAdded(snapshot){
+function itemAdded(snapshot){
   var item = snapshot.val();
   items.push(item);
   createRow(item);
   updateGrandTotal(item);
 }
 
-function receiveDb(snapshot){
-  var inventory = snapshot.val();
-  $('#person').val(inventory.fullName);
-  $('#address').val(inventory.address);
+function personChanged(snapshot){
+  var person = snapshot.val();
+
+  try{
+    $('#person').val(person.fullName);
+    $('#address').val(person.address);
+  } catch(e) {
+    console.log(e);
+  }
+
+  console.log(person);
 }
 
 function updateGrandTotal(item){
@@ -39,11 +54,11 @@ function updateGrandTotal(item){
 function save(){
   var fullName = $('#person').val();
   var address = $('#address').val();
-  var inventory = {};
-  inventory.fullName = fullName;
-  inventory.address = address;
+  var person = {};
+  person.fullName = fullName;
+  person.address = address;
 
-  Δdb.update(inventory);
+  Δperson.set(person);
 }
 
 function add(){
