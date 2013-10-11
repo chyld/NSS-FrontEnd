@@ -1,0 +1,8 @@
+table#stocks {
+  width: 100%; }
+
+.losing-money {
+  background-color: #cc3333 !important; }
+
+.making-money {
+  background-color: #33cc33 !important; }

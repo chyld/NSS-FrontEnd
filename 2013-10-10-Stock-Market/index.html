@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset='utf-8'>
+  <meta content='width=device-width' name='viewport'>
+  <title>Foundation 4</title>
+  <link href='css/normalize.css' rel='stylesheet'>
+  <link href='css/foundation.css' rel='stylesheet'>
+  <link href='css/app.css' rel='stylesheet'>
+  <script src='js/vendor/custom.modernizr.js'></script>
+</head>
+<body>
+  <div class='row'>
+    <div class='small-12 columns'>
+      <h1>Stock Management System</h1>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-2 small-offset-6 columns'>
+      <h6>Cash</h6>
+    </div>
+    <div class='small-2 columns'>
+      <h6>Stock</h6>
+    </div>
+    <div class='small-2 columns'>
+      <h6>Total</h6>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-2 columns'>
+      <input autofocus='true' id='get-funds' type='text'>
+    </div>
+    <div class='small-4 columns'>
+      <input class='button small success radius' id='set-funds' type='button' value='Set Funds'>
+    </div>
+    <div class='small-2 columns'>
+      <input id='cash' readonly type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <input id='stock' readonly type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <input id='total' readonly type='text'>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-2 columns'>
+      <input id='symbol' placeholder='AAPL' type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <input id='quantity' placeholder='35' type='text'>
+    </div>
+    <div class='small-4 columns'>
+      <input class='button small radius' id='purchase' type='button' value='Purchase Stock'>
+    </div>
+    <div class='small-2 columns'>
+      <input id='delay' placeholder='0.5' type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <input class='button small radius' id='start-animation' type='button' value='Start Animation'>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-12 columns'>
+      <table id='stocks'>
+        <tr>
+          <th>Name</th>
+          <th>Symbol</th>
+          <th>Quote</th>
+          <th>Quantity</th>
+          <th>Position</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script src='js/vendor/jquery-1.10.2.js'></script>
+  <script src='js/vendor/foundation.min.js'></script>
+  <script src='js/vendor/underscore.js'></script>
+  <script src='js/vendor/moment.min.js'></script>
+  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+  <script src='js/app/app.js'></script>
+</body>
