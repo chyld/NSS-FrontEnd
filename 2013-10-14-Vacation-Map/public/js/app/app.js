@@ -18,6 +18,7 @@ function initialize(){
   Δlocations.on('child_added', dbLocationAdded);
   $('#set-zoom').click(clickSetZoom);
   $('#add-location').click(clickAddLocation);
+  $('#go-location').click(clickGoLocation);
   initMap(36, -86, 5);
 }
 
@@ -33,6 +34,13 @@ function initMap(lat, lng, zoom){
 function clickSetZoom(){
   var zoom = getValue('#zoom', parseInt);
   db.map.setZoom(zoom);
+}
+
+function clickGoLocation(){
+  var name = $('#location-select').val();
+  var location = _.find(db.locations, function(l){return l.name === name;});
+  var latLng = new google.maps.LatLng(location.coordinates.lb, location.coordinates.mb);
+  db.map.setCenter(latLng);
 }
 
 function clickAddLocation(){
