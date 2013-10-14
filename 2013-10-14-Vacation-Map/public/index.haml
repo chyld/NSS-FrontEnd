@@ -1,0 +1,8 @@
+!!! 5
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+%head
+  = Haml::Engine.new(File.read('public/haml/_head.haml')).render
+%body
+  = Haml::Engine.new(File.read('public/haml/_body.haml')).render
+  = Haml::Engine.new(File.read('public/haml/_scripts.haml')).render
