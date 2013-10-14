@@ -52,8 +52,27 @@ function clickAddLocation(){
 // -------------------------------------------------------------------- //
 
 function dbLocationAdded(snapshot){
+  var location = snapshot.val();
+  db.locations.push(location);
+  htmlAddLocation(location);
+  htmlAddMarker(location);
 }
 
+// -------------------------------------------------------------------- //
+// -------------------------------------------------------------------- //
+// -------------------------------------------------------------------- //
+
+function htmlAddLocation(location){
+  var $option = $('<option>');
+  $option.val(location.name);
+  $option.text(location.name);
+  $('#location-select').append($option);
+}
+
+function htmlAddMarker(location){
+  var latLng = new google.maps.LatLng(location.coordinates.lb, location.coordinates.mb);
+  var marker = new google.maps.Marker({map: db.map, position: latLng, title: location.name});
+}
 
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
