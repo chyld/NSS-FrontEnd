@@ -1,0 +1,54 @@
+!!! 5
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+%head
+  %meta{charset: "utf-8"}
+  %meta{name: "viewport", content: "width=device-width"}
+  %title Foundation 4
+  %link{rel: "stylesheet", href: "css/normalize.css"}
+  %link{rel: "stylesheet", href: "css/foundation.css"}
+  %link{rel: "stylesheet", href: "css/app.css"}
+  %script{src: "js/vendor/custom.modernizr.js"}
+%body
+  .row
+    .small-12.columns
+      %h1 Visual Stock Management System
+  .row
+    .small-2.small-offset-6.columns
+      %h6 Cash
+    .small-2.columns
+      %h6 Stock
+    .small-2.columns
+      %h6 Total
+  .row
+    .small-2.columns
+      %input#deposit-amount{type: 'text', autofocus: 'true'}
+    .small-4.columns
+      %input#deposit.button.small.success.radius{type: 'button', value: 'Deposit'}
+    .small-2.columns
+      %input#cash{type: 'text', readonly: true}
+    .small-2.columns
+      %input#stock{type: 'text', readonly: true}
+    .small-2.columns
+      %input#total{type: 'text', readonly: true}
+  .row
+    .small-2.columns
+      %input#symbol{type: 'text', placeholder: 'AAPL'}
+    .small-2.columns
+      %input#quantity{type: 'text', placeholder: '35'}
+    .small-4.columns
+      %input#purchase.button.small.radius{type: 'button', value: 'Purchase'}
+    .small-2.columns
+      %input#delay{type: 'text', placeholder: '0.5', value: '5'}
+    .small-2.columns
+      %input#refresh.button.small.radius{type: 'button', value: 'Refresh'}
+  .row
+    .small-12.columns
+      #stocks
+
+  %script{src: 'js/vendor/jquery-1.10.2.js'}
+  %script{src: 'js/vendor/foundation.min.js'}
+  %script{src: 'js/vendor/underscore.js'}
+  %script{src: 'js/vendor/moment.min.js'}
+  %script{src: 'https://cdn.firebase.com/v0/firebase.js'}
+  %script{src: 'js/app/app.js'}

@@ -1,0 +1,19 @@
+.stock {
+  float: left;
+  width: 100px;
+  margin: 25px 25px 0px 0px; }
+
+.empty {
+  background-color: #9999ff; }
+
+.graph {
+  background-color: #3333ff; }
+
+.logo {
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-repeat: no-repeat; }
+
+.name {
+  font-size: 11px; }
