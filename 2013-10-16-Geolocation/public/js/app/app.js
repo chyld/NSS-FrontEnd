@@ -17,7 +17,9 @@ function initialize(){
   Δpositions.on('child_added', dbPositionAdded);
   $('#start').click(clickStart);
   $('#erase').click(clickErase);
+  $('#stop').click(clickStop);
   initMap(36, -86, 5);
+  Δpositions.remove();
 }
 
 // -------------------------------------------------------------------- //
@@ -26,18 +28,18 @@ function initialize(){
 
 function dbPositionAdded(snapshot){
   var position = snapshot.val();
-
-  $('#debug').text(position.time);
-
   var latLng = new google.maps.LatLng(position.latitude, position.longitude);
 
   db.positions.push(position);
-  db.path.push(latLng);
 
   if(db.positions.length === 1){
     htmlAddStartIcon(latLng);
-    htmlAddPolyLine();
+    htmlInitializePolyLine();
   }
+
+  db.path.push(latLng);
+  db.marker.setPosition(latLng);
+  htmlSetCenterAndZoom(latLng);
 }
 
 // -------------------------------------------------------------------- //
@@ -46,19 +48,19 @@ function dbPositionAdded(snapshot){
 
 function htmlAddStartIcon(latLng){
   var image = '/img/start.jpg';
-  var marker = new google.maps.Marker({map: db.map, position: latLng, icon: image});
-  htmlSetCenterAndZoom(latLng);
+  db.marker = new google.maps.Marker({map: db.map, position: latLng, icon: image});
 }
 
-function htmlAddPolyLine(){
-  new google.maps.Polyline({
-    path: db.path,
+function htmlInitializePolyLine(){
+  var polyLine = new google.maps.Polyline({
     map: db.map,
     geodesic: true,
     strokeColor: '#FF0000',
     strokeOpacity: 1.0,
     strokeWeight: 2
   });
+
+  db.path = polyLine.getPath();
 }
 
 function htmlSetCenterAndZoom(latLng){
@@ -73,6 +75,10 @@ function htmlSetCenterAndZoom(latLng){
 function clickStart(){
   var geoOptions = {enableHighAccuracy: true, maximumAge: 1000, timeout: 60000};
   db.watchId = navigator.geolocation.watchPosition(geoSuccess, geoError, geoOptions);
+}
+
+function clickStop(){
+  navigator.geolocation.clearWatch(db.watchId);
 }
 
 function clickErase(){
