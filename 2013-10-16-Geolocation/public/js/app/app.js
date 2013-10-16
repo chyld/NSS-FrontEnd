@@ -5,6 +5,8 @@ var Δdb;
 var Δpositions;
 
 // Local Schema (defined in keys.js)
+db.positions = [];
+db.path = [];
 
 $(document).ready(initialize);
 
@@ -14,9 +16,8 @@ function initialize(){
   Δpositions = Δdb.child('positions');
   Δpositions.on('child_added', dbPositionAdded);
   $('#start').click(clickStart);
+  $('#erase').click(clickErase);
   initMap(36, -86, 5);
-  Δpositions.remove();
-  db.positions = [];
 }
 
 // -------------------------------------------------------------------- //
@@ -26,24 +27,38 @@ function initialize(){
 function dbPositionAdded(snapshot){
   var position = snapshot.val();
 
-  if(db.positions.length){
-    // already exists
-  } else {
-    htmlAddStartIcon(position);
-  }
+  $('#debug').text(position.time);
+
+  var latLng = new google.maps.LatLng(position.latitude, position.longitude);
 
   db.positions.push(position);
+  db.path.push(latLng);
+
+  if(db.positions.length === 1){
+    htmlAddStartIcon(latLng);
+    htmlAddPolyLine();
+  }
 }
 
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 
-function htmlAddStartIcon(position){
-  var latLng = new google.maps.LatLng(position.latitude, position.longitude);
+function htmlAddStartIcon(latLng){
   var image = '/img/start.jpg';
   var marker = new google.maps.Marker({map: db.map, position: latLng, icon: image});
   htmlSetCenterAndZoom(latLng);
+}
+
+function htmlAddPolyLine(){
+  new google.maps.Polyline({
+    path: db.path,
+    map: db.map,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
 }
 
 function htmlSetCenterAndZoom(latLng){
@@ -58,6 +73,12 @@ function htmlSetCenterAndZoom(latLng){
 function clickStart(){
   var geoOptions = {enableHighAccuracy: true, maximumAge: 1000, timeout: 60000};
   db.watchId = navigator.geolocation.watchPosition(geoSuccess, geoError, geoOptions);
+}
+
+function clickErase(){
+  Δpositions.remove();
+  db.positions = [];
+  db.path = [];
 }
 
 // -------------------------------------------------------------------- //

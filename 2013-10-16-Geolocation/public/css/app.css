@@ -16,3 +16,6 @@ body {
 
 #map-canvas {
   width: 100%; }
+
+#debug {
+  color: #ffffff; }
