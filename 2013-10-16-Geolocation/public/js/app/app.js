@@ -41,7 +41,7 @@ function dbPositionAdded(snapshot){
 
 function htmlAddStartIcon(position){
   var latLng = new google.maps.LatLng(position.latitude, position.longitude);
-  var image = '/img/icons/wrench.png';
+  var image = '/img/start.jpg';
   var marker = new google.maps.Marker({map: db.map, position: latLng, icon: image});
   htmlSetCenterAndZoom(latLng);
 }
