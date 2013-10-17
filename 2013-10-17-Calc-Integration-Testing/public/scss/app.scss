@@ -1,6 +1,9 @@
-// #map-canvas
-// {
-//   height: 250px;
-//   width: 250px;
-//   border: 1px solid black;
-// }
+#history > li:nth-child(odd)
+{
+  background-color: red;
+}
+
+#history > li:nth-child(even)
+{
+  background-color: white;
+}

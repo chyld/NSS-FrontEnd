@@ -1,6 +1,6 @@
 .row
   .small-12.columns
-    %h1 Calulator + Integration Testing
+    %h1 Super Calculator
 .row
   .small-2.columns
     %input#op1{type: 'text'}
@@ -10,8 +10,10 @@
     %input#op2{type: 'text'}
   .small-2.columns
     %input#calculate.button.small.success{type: 'button', value: 'Calculate'}
-  .small-5.columns
-    #result
+  .small-3.columns
+    %input#result{type: 'text', readonly: true}
+  .small-2.columns
 .row
-  .small-12.columns
+  .small-5.columns
     %ul#history
+  .small-7.columns

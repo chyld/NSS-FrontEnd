@@ -7,6 +7,7 @@ function initialize(fn, flag){
 
   $(document).foundation();
   $('#calculate').click(clickCalculate);
+  $('#history').on('click', '.delete', clickDelete);
 }
 
 // -------------------------------------------------------------------- //
@@ -23,17 +24,22 @@ function clickCalculate(){
   htmlAddToPaperTrail(op1, operator, op2, result);
 }
 
+function clickDelete(){
+  var $li = $(this).parent();
+  $li.remove();
+}
+
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 
 function htmlUpdateResult(result){
-  $('#result').text(result);
+  $('#result').val(result);
 }
 
 function htmlAddToPaperTrail(op1, operator, op2, result){
   var $li = $('<li>');
-  var spans = '<span class="op1">' + op1 + '</span><span class="operator">' + operator + '</span><span class="op2">' + op2 + '</span><span class="equal">=</span><span class="result">' + result + '</span>';
+  var spans = '<span class="op1">' + op1 + '</span><span class="operator">' + operator + '</span><span class="op2">' + op2 + '</span><span class="equal">=</span><span class="result">' + result + '</span><span class="delete">X</span>';
   var $spans = $(spans);
   $li.append($spans);
   $('#history').prepend($li);

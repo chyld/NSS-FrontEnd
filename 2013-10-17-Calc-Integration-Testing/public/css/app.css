@@ -1,0 +1,5 @@
+#history > li:nth-child(odd) {
+  background-color: red; }
+
+#history > li:nth-child(even) {
+  background-color: white; }
