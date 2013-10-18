@@ -8,6 +8,10 @@ function initialize(fn, flag){
   $(document).foundation();
   $('#calculate').click(clickCalculate);
   $('#history').on('click', '.delete', clickDelete);
+  $('#sum').click(clickSum);
+  $('#product').click(clickProduct);
+  $('#filter-negative').click(clickFilterNegative);
+  $('#filter-positive').click(clickFilterPositive);
 }
 
 // -------------------------------------------------------------------- //
@@ -27,6 +31,28 @@ function clickCalculate(){
 function clickDelete(){
   var $li = $(this).parent();
   $li.remove();
+}
+
+function clickSum(){
+  var $results = $('span.result');
+  var numbers = _.map($results, function(span){return parseFloat($(span).text());});
+  var sum = _.reduce(numbers, function(memo, num){ return memo + num; }, 0);
+  htmlUpdateResult(sum);
+}
+
+function clickProduct(){
+  var $results = $('span.result');
+  var numbers = _.map($results, function(span){return parseFloat($(span).text());});
+  var product = _.reduce(numbers, function(memo, num){ return memo * num; }, 1);
+  htmlUpdateResult(product);
+}
+
+function clickFilterNegative(){
+  $('span.result:contains("-")').parent().remove();
+}
+
+function clickFilterPositive(){
+  $('span.result').not(':contains("-")').parent().remove();
 }
 
 // -------------------------------------------------------------------- //

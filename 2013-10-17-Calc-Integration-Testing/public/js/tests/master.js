@@ -105,3 +105,99 @@ test('Alternating Row Colors', function(){
   deepEqual($('#history > li:first-child').css('background-color'), 'rgb(255, 0, 0)', 'should be red background color');
   deepEqual($('#history > li:nth-child(2)').css('background-color'), 'rgb(255, 255, 255)', 'should be white background color');
 });
+
+test('Sum Button', function(){
+  expect(1);
+
+  $('#op1').val('3');
+  $('#op2').val('2');
+  $('#operator').val('+');
+  $('#calculate').trigger('click');
+
+  $('#op1').val('7');
+  $('#op2').val('8');
+  $('#operator').val('*');
+  $('#calculate').trigger('click');
+
+  $('#op1').val('3');
+  $('#op2').val('3');
+  $('#operator').val('-');
+  $('#calculate').trigger('click');
+
+  $('#sum').trigger('click');
+
+  deepEqual($('input#result').val(), '61', 'summing up 3 numbers');
+});
+
+test('Product Button', function(){
+  expect(1);
+
+  $('#op1').val('3');
+  $('#op2').val('2');
+  $('#operator').val('+');
+  $('#calculate').trigger('click');
+
+  $('#op1').val('7');
+  $('#op2').val('8');
+  $('#operator').val('*');
+  $('#calculate').trigger('click');
+
+  $('#op1').val('3');
+  $('#op2').val('3');
+  $('#operator').val('-');
+  $('#calculate').trigger('click');
+
+  $('#product').trigger('click');
+
+  deepEqual($('input#result').val(), '0', 'multiplying 3 numbers');
+});
+
+test('Filter Negative Rows', function(){
+  expect(2);
+
+  $('#op1').val('3');
+  $('#op2').val('2');
+  $('#operator').val('+');
+  $('#calculate').trigger('click');
+
+  $('#op1').val('7');
+  $('#op2').val('8');
+  $('#operator').val('*');
+  $('#calculate').trigger('click');
+
+  $('#op1').val('3');
+  $('#op2').val('30');
+  $('#operator').val('-');
+  $('#calculate').trigger('click');
+
+  $('#filter-negative').trigger('click');
+
+  deepEqual($('#history > li').length, 2, 'should be 2 rows left');
+  $('#sum').trigger('click');
+  deepEqual($('input#result').val(), '61', 'sum of 2 remaining rows should be 61');
+});
+
+test('Filter Positive Rows', function(){
+  expect(2);
+
+  $('#op1').val('3');
+  $('#op2').val('2');
+  $('#operator').val('+');
+  $('#calculate').trigger('click');
+
+  $('#op1').val('7');
+  $('#op2').val('8');
+  $('#operator').val('*');
+  $('#calculate').trigger('click');
+
+  $('#op1').val('3');
+  $('#op2').val('30');
+  $('#operator').val('-');
+  $('#calculate').trigger('click');
+
+  $('#filter-positive').trigger('click');
+
+  deepEqual($('#history > li').length, 1, 'should be 1 row left');
+  $('#sum').trigger('click');
+  deepEqual($('input#result').val(), '-27', 'sum of 1 remaining row should be -27');
+});
