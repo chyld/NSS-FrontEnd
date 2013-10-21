@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset='utf-8'>
+  <meta content='width=device-width' name='viewport'>
+  <title>Master Template</title>
+  <link href='/css/normalize.css' rel='stylesheet'>
+  <link href='/css/foundation.css' rel='stylesheet'>
+  <link href='/css/app.css' rel='stylesheet'>
+  <script src='/js/vendor/custom.modernizr.js'></script>
+  <script src='/js/app/keys.js'></script>
+</head>
+<body>
+  <div class='row'>
+    <div class='small-2 columns'>
+      <input id='school' type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <input id='length' type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <input id='width' type='text'>
+    </div>
+    <div class='small-6 columns'>
+      <input class='button small radius' id='add-school' type='button' value='Add School'>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-2 columns'>
+      <input id='student' type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <input id='gpa' type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <select id='pick-school'></select>
+    </div>
+    <div class='small-6 columns'>
+      <input class='button small radius' id='add-student' type='button' value='Add Student'>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-2 columns'>
+      <input id='subject' type='text'>
+    </div>
+    <div class='small-2 columns'>
+      <select id='pick-student'></select>
+    </div>
+    <div class='small-6 columns'>
+      <input class='button small radius' id='add-subject' type='button' value='Add Subject'>
+    </div>
+  </div>
+  <script src='/js/vendor/jquery-1.10.2.js'></script>
+  <script src='/js/vendor/foundation.min.js'></script>
+  <script src='/js/vendor/underscore.js'></script>
+  <script src='/js/vendor/moment.min.js'></script>
+  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+  <!-- %script{src: 'https://maps.googleapis.com/maps/api/js?key=__________&sensor=true'} -->
+  <script src='/js/app/app.js'></script>
+</body>
