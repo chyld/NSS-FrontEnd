@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset='utf-8'>
+  <meta content='width=device-width' name='viewport'>
+  <title>Master Template</title>
+  <link href='/css/normalize.css' rel='stylesheet'>
+  <link href='/css/foundation.css' rel='stylesheet'>
+  <link href='/css/app.css' rel='stylesheet'>
+  <script src='/js/vendor/custom.modernizr.js'></script>
+  <script src='/js/tests/keys.js'></script>
+  <link href='/css/qunit-theme-gabe.css' rel='stylesheet'>
+</head>
+<body>
+  <div id='qunit'></div>
+  <div id='qunit-fixture'>
+    <div class='row'>
+      <div class='small-2 columns'>
+        <input id='product-image' placeholder='image.png' type='text'>
+      </div>
+      <div class='small-2 columns'>
+        <input id='product-name' placeholder='name' type='text'>
+      </div>
+      <div class='small-2 columns'>
+        <input id='product-weight' placeholder='weight' type='text'>
+      </div>
+      <div class='small-2 columns'>
+        <input id='product-price' placeholder='$3.30' type='text'>
+      </div>
+      <div class='small-2 columns'>
+        <input id='product-off' placeholder='14%' type='text'>
+      </div>
+      <div class='small-2 columns'>
+        <input class='small radius button' id='add-product' type='button' value='Add Product'>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='small-12 columns'>
+        <table id='products'>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Weight</th>
+            <th>Price</th>
+            <th>% Off</th>
+            <th>Sale</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src='/js/vendor/jquery-1.10.2.js'></script>
+  <script src='/js/vendor/foundation.min.js'></script>
+  <script src='/js/vendor/underscore.js'></script>
+  <script src='/js/vendor/moment.min.js'></script>
+  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+  <!-- %script{src: 'https://maps.googleapis.com/maps/api/js?key=__________&sensor=true'} -->
+  <script src='/js/app/app.js'></script>
+  <script src='/js/vendor/jquery.domchanged.js'></script>
+  <script src='/js/vendor/qunit-1.12.0.js'></script>
+  <script src='/js/vendor/qunit-close-enough.js'></script>
+  <script src='/js/tests/master.js'></script>
+</body>

@@ -1,0 +1,17 @@
+!!! 5
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+%head
+  = Haml::Engine.new(File.read('public/haml/_head.haml')).render
+  %script{src: '/js/tests/keys.js'}
+  %link{rel: 'stylesheet', href: '/css/qunit-theme-gabe.css'}
+%body
+  #qunit
+  #qunit-fixture
+    = Haml::Engine.new(File.read('public/haml/_body.haml')).render
+
+  = Haml::Engine.new(File.read('public/haml/_scripts.haml')).render
+  %script{src: '/js/vendor/jquery.domchanged.js'}
+  %script{src: '/js/vendor/qunit-1.12.0.js'}
+  %script{src: '/js/vendor/qunit-close-enough.js'}
+  %script{src: '/js/tests/master.js'}
