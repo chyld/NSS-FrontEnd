@@ -12,6 +12,10 @@ var Δorders;
 
 // Local Schema (defined in keys.js)
 db.products = db.customers = db.orders = [];
+db.pagination = {};
+db.pagination.perPage = 5;
+db.pagination.currentPage = 1;
+db.pagination.currentRowCount = 0;
 
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -19,7 +23,7 @@ db.products = db.customers = db.orders = [];
 
 $(document).ready(initialize);
 
-function initialize(fn, flag){
+function initialize(){
   $(document).foundation();
   initializeDatabase();
   turnHandlersOn();
@@ -42,10 +46,14 @@ function initializeDatabase(){
 
 function turnHandlersOn(){
   $('#add-product').on('click', clickAddProduct);
+  $('#previous').on('click', clickNavigation);
+  $('#next').on('click', clickNavigation);
 }
 
 function turnHandlersOff(){
   $('#add-product').off('click');
+  $('#previous').off('click');
+  $('#next').off('click');
 }
 
 // -------------------------------------------------------------------- //
@@ -64,6 +72,26 @@ function clickAddProduct(){
   Δproducts.push(product);
 }
 
+function clickNavigation(){
+  db.pagination.currentRowCount = 0;
+  htmlEmptyProductRows();
+
+  var isPrevious = this.id === 'previous';
+  db.pagination.currentPage += isPrevious ? -1 : +1;
+
+  var startIndex = db.pagination.perPage * (db.pagination.currentPage - 1);
+  var endLength = (startIndex + db.pagination.perPage) > db.products.length ? db.products.length : startIndex + db.pagination.perPage;
+  var isLess = startIndex > 0;
+  var isMore = db.products.length > endLength;
+
+  htmlShowHideNavigation('#previous', isLess);
+  htmlShowHideNavigation('#next', isMore);
+
+  for(var i = startIndex; i < endLength; i++){
+    htmlAddProduct(db.products[i]);
+  }
+}
+
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -73,7 +101,11 @@ function dbProductAdded(snapshot){
   var product = new Product(obj.image, obj.name, obj.weight, obj.price, obj.off);
   product.id = snapshot.name();
   db.products.push(product);
-  htmlAddProduct(product);
+  if(db.pagination.currentRowCount < db.pagination.perPage){
+    htmlAddProduct(product);
+  } else {
+    htmlShowHideNavigation('#next', true);
+  }
 }
 
 function dbCustomerAdded(snapshot){
@@ -89,9 +121,22 @@ function dbOrderAdded(snapshot){
 // -------------------------------------------------------------------- //
 
 function htmlAddProduct(product){
-  var tr = '<tr><td class="product-image"><img src="/img/' + product.image + '"></td><td class="product-name">' + product.name + '</td><td class="product-weight">' + product.weight + ' lbs</td><td class="product-price">' + formatCurrency(product.price) + '</td><td class="product-off">' + product.off + '</td><td class="product-sale">' + formatCurrency(product.salePrice()) + '</td></tr>';
+  db.pagination.currentRowCount++;
+  var tr = '<tr class="product"><td class="product-image"><img src="/img/' + product.image + '"></td><td class="product-name">' + product.name + '</td><td class="product-weight">' + product.weight + ' lbs</td><td class="product-price">' + formatCurrency(product.price) + '</td><td class="product-off">' + product.off + '</td><td class="product-sale">' + formatCurrency(product.salePrice()) + '</td></tr>';
   var $tr = $(tr);
   $('#products').append($tr);
+}
+
+function htmlShowHideNavigation(selector, shouldShow){
+  $(selector).removeClass('hidden');
+
+  if(!shouldShow){
+    $(selector).addClass('hidden');
+  }
+}
+
+function htmlEmptyProductRows(){
+  $('.product').remove();
 }
 
 // -------------------------------------------------------------------- //
