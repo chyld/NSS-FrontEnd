@@ -84,6 +84,24 @@ test('Product Pagination', function(){
   ok(!$('#next').hasClass('hidden'), 'next button should not be hidden');
 });
 
+test('Add Customer', function(){
+  expect(7);
+
+  $('#customer-image').val('bob.png');
+  $('#customer-name').val('Bob Jenkins');
+  $('#domestic')[0].checked = true;
+  $('#add-customer').trigger('click');
+
+  equal(db.customers.length, 1, 'should have 1 customer in array');
+  ok(db.customers[0] instanceof Customer, 'should be an instance of Customer');
+  equal(db.customers[0].name, 'Bob Jenkins', 'name should be present');
+  equal(db.customers[0].image, 'bob.png', 'image should be present');
+  ok(db.customers[0].id, 'id should be present');
+  ok(db.customers[0].isDomestic, 'should be domestic');
+
+  ok(!$('#domestic')[0].checked, 'domestic should not be checked');
+});
+
 function createTestProduct(name, image, weight, price, off){
   $('#product-name').val(name);
   $('#product-image').val(image);

@@ -46,12 +46,14 @@ function initializeDatabase(){
 
 function turnHandlersOn(){
   $('#add-product').on('click', clickAddProduct);
+  $('#add-customer').on('click', clickAddCustomer);
   $('#previous').on('click', clickNavigation);
   $('#next').on('click', clickNavigation);
 }
 
 function turnHandlersOff(){
   $('#add-product').off('click');
+  $('#add-customer').off('click');
   $('#previous').off('click');
   $('#next').off('click');
 }
@@ -70,6 +72,16 @@ function clickAddProduct(){
   var product = new Product(image, name, weight, price, off);
   delete product.salePrice;
   Δproducts.push(product);
+}
+
+function clickAddCustomer(){
+  var image = getValue('#customer-image');
+  var name = getValue('#customer-name');
+  var isDomestic = $('input[name="address"]:checked').val() === 'domestic';
+  htmlResetRadioButtons();
+
+  var customer = new Customer(image, name, isDomestic);
+  Δcustomers.push(customer);
 }
 
 function clickNavigation(){
@@ -109,11 +121,14 @@ function dbProductAdded(snapshot){
 }
 
 function dbCustomerAdded(snapshot){
-  var customer = snapshot.val();
+  var obj = snapshot.val();
+  var customer = new Customer(obj.image, obj.name, obj.isDomestic);
+  customer.id = snapshot.name();
+  db.customers.push(customer);
 }
 
 function dbOrderAdded(snapshot){
-  var order = snapshot.val();
+  var obj = snapshot.val();
 }
 
 // -------------------------------------------------------------------- //
@@ -139,6 +154,10 @@ function htmlEmptyProductRows(){
   $('.product').remove();
 }
 
+function htmlResetRadioButtons(){
+  $('input[name="address"]:checked')[0].checked = false;
+}
+
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -150,6 +169,12 @@ function Product(image, name, weight, price, off){
   this.price = price;
   this.off = off;
   this.salePrice = function(){return this.price - (this.price * this.off);};
+}
+
+function Customer(image, name, isDomestic){
+  this.image = image;
+  this.name = name;
+  this.isDomestic = isDomestic;
 }
 
 // -------------------------------------------------------------------- //

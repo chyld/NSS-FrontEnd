@@ -25,3 +25,13 @@
   .small-12.columns
     #previous.hidden
     #next.hidden
+.row
+  .small-2.columns
+    %input#customer-image{type: 'text', placeholder: 'image.png'}
+  .small-2.columns
+    %input#customer-name{type: 'text', placeholder: 'name'}
+  .small-6.columns
+    %input#domestic{type: 'radio', name: 'address', value: 'domestic'} Domestic
+    %input#international{type: 'radio', name: 'address', value: 'international'} International
+  .small-2.columns
+    %input#add-customer.small.radius.button{type: 'button', value: 'Add Customer'}
