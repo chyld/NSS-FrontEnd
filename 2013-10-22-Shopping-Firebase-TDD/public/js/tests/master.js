@@ -172,6 +172,46 @@ test('Add Items to Shopping Cart', function(){
   equal($('#cart tfoot tr #cart-grand').text(), '$950.25', 'should have $950.25 for grand');
 });
 
+test('Add Order', function(){
+  expect(14);
+
+  createTestProduct('iPad Air', 'ipad-air.png', 1, 500, 10); // sale - 450
+  createTestProduct('iPhone 5s', 'iphone-5s.png', 0.5, 200, 0); // sale - 200
+  createTestProduct('Apple TV', 'apple-tv.png', 1.5, 100, 5); // sale - 95
+
+  createTestCustomer('Bob', 'bob.png', true);
+  createTestCustomer('Sally', 'sally.png', false);
+
+  $('select#select-customer').val('Sally');
+  $('select#select-customer').trigger('change');
+
+  // 2 iphone 5s
+  $('#products tr:nth-child(3) .product-image img').trigger('click');
+  $('#products tr:nth-child(3) .product-image img').trigger('click');
+
+  // 1 ipad air
+  $('#products tr:nth-child(2) .product-image img').trigger('click');
+
+  // 1 apple tv
+  $('#products tr:nth-child(4) .product-image img').trigger('click');
+  $('#purchase').trigger('click');
+
+  equal($('#cart tbody tr').length, 0, 'should be no rows in tbody after purchase');
+  equal($('#cart-grand').text(), '', 'should be no grand total after purchase');
+  equal($('#select-customer').val(), 'default', 'drop down should default after purchase');
+  equal(db.orders.length, 1, 'should be 1 order after purchase');
+  ok(db.orders[0] instanceof Order, 'should be an Order instance after purchase');
+  ok(db.orders[0].id, 'should have an ID after purchase');
+  equal($('#orders thead th').length, 7, 'should have 7 columns in orders table');
+  equal($('#orders tbody tr').length, 1, 'should have 1 row in orders table body');
+  equal($('#orders tbody .order-time').text().split(' ').length, 5, 'date time should be formatted');
+  equal($('#orders tbody .order-customer').text(), 'Sally', 'should have customers name');
+  equal($('#orders tbody .order-total').text(), '$945.00', 'should have customers total');
+  equal($('#orders tbody .order-shipping').text(), '$5.25', 'should have customers shipping');
+  equal($('#orders tbody .order-grand').text(), '$950.25', 'should have customers grand');
+  equal($('#orders tbody .order-products-list li').length, 4, 'should have 4 items in order');
+});
+
 function createTestProduct(name, image, weight, price, off){
   $('#product-name').val(name);
   $('#product-image').val(image);
