@@ -10,13 +10,6 @@ var Δproducts;
 var Δcustomers;
 var Δorders;
 
-// Local Schema (defined in keys.js)
-db.products = db.customers = db.orders = [];
-db.pagination = {};
-db.pagination.perPage = 5;
-db.pagination.currentPage = 1;
-db.pagination.currentRowCount = 0;
-
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -25,6 +18,7 @@ $(document).ready(initialize);
 
 function initialize(){
   $(document).foundation();
+  initializeSchema();
   initializeDatabase();
   turnHandlersOn();
 }
@@ -32,6 +26,23 @@ function initialize(){
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
+
+function initializeSchema(){
+  db.constants = {};
+  db.constants.domesticShipping = 0.50;
+  db.constants.internationalShipping = 1.50;
+
+  db.products = [];
+  db.customers = [];
+  db.orders = [];
+
+  db.pagination = {};
+  db.pagination.perPage = 5;
+  db.pagination.currentPage = 1;
+  db.pagination.currentRowCount = 0;
+
+  db.cart = new Cart();
+}
 
 function initializeDatabase(){
   Δdb = new Firebase(db.keys.firebase);
@@ -49,6 +60,8 @@ function turnHandlersOn(){
   $('#add-customer').on('click', clickAddCustomer);
   $('#previous').on('click', clickNavigation);
   $('#next').on('click', clickNavigation);
+  $('#products').on('click', 'img', clickAddItemToCart);
+  $('#select-customer').on('change', changeCustomer);
 }
 
 function turnHandlersOff(){
@@ -56,6 +69,8 @@ function turnHandlersOff(){
   $('#add-customer').off('click');
   $('#previous').off('click');
   $('#next').off('click');
+  $('#products').off('click');
+  $('#select-customer').off('change');
 }
 
 // -------------------------------------------------------------------- //
@@ -104,6 +119,22 @@ function clickNavigation(){
   }
 }
 
+function clickAddItemToCart(){
+  if(db.cart.customer){
+    var name = $(this).parent().next().text();
+    var product = _.find(db.products, function(p){return p.name === name;});
+    db.cart.products.push(product);
+    htmlAddItemToCart(product);
+    htmlUpdateCartTotals();
+  }
+}
+
+function changeCustomer(){
+  var name = this.value;
+  var customer = _.find(db.customers, function(c){return c.name === name;});
+  db.cart.customer = customer;
+}
+
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -125,6 +156,7 @@ function dbCustomerAdded(snapshot){
   var customer = new Customer(obj.image, obj.name, obj.isDomestic);
   customer.id = snapshot.name();
   db.customers.push(customer);
+  htmlAddCustomerToSelect(customer);
 }
 
 function dbOrderAdded(snapshot){
@@ -137,7 +169,7 @@ function dbOrderAdded(snapshot){
 
 function htmlAddProduct(product){
   db.pagination.currentRowCount++;
-  var tr = '<tr class="product"><td class="product-image"><img src="/img/' + product.image + '"></td><td class="product-name">' + product.name + '</td><td class="product-weight">' + product.weight + ' lbs</td><td class="product-price">' + formatCurrency(product.price) + '</td><td class="product-off">' + product.off + '</td><td class="product-sale">' + formatCurrency(product.salePrice()) + '</td></tr>';
+  var tr = '<tr class="product"><td class="product-image"><img src="/img/' + product.image + '"></td><td class="product-name">' + product.name + '</td><td class="product-weight">' + product.weight.toFixed(2) + ' lbs</td><td class="product-price">' + formatCurrency(product.price) + '</td><td class="product-off">' + product.off.toFixed(2) + '</td><td class="product-sale">' + formatCurrency(product.salePrice()) + '</td></tr>';
   var $tr = $(tr);
   $('#products').append($tr);
 }
@@ -158,6 +190,50 @@ function htmlResetRadioButtons(){
   $('input[name="address"]:checked')[0].checked = false;
 }
 
+function htmlAddCustomerToSelect(customer){
+  var $option = $('<option>');
+  $option.val(customer.name);
+  $option.text(customer.name);
+  $('#select-customer').prepend($option);
+}
+
+function htmlAddItemToCart(product){
+  var count, $tr, tr;
+  var $tds = $('#cart tbody .product-name');
+  var foundTd = _.find($tds, function(td){return td.innerText === product.name;});
+
+  if(foundTd){
+    count = parseInt($(foundTd).next().text(), 10);
+    count++;
+    $tr = $(foundTd).parent();
+  } else {
+    count = 1;
+    tr = '<tr><td class="product-name"></td><td class="product-count"></td><td class="product-amount"></td><td class="product-weight"></td><td class="product-shipping"></td><td class="product-grand"></td></tr>';
+    $tr = $(tr);
+    $('#cart tbody').append($tr);
+  }
+
+  var amount = product.salePrice() * count;
+  var weight = product.weight * count;
+  var shipping = weight * (db.cart.customer.isDomestic ? db.constants.domesticShipping : db.constants.internationalShipping);
+  var grand = amount + shipping;
+
+  $tr.children('.product-name').text(product.name);
+  $tr.children('.product-count').text(count);
+  $tr.children('.product-amount').text(formatCurrency(amount));
+  $tr.children('.product-weight').text(weight.toFixed(2) + ' lbs');
+  $tr.children('.product-shipping').text(formatCurrency(shipping));
+  $tr.children('.product-grand').text(formatCurrency(grand));
+}
+
+function htmlUpdateCartTotals(){
+  $('#cart-count').text(db.cart.totals.count());
+  $('#cart-amount').text(formatCurrency(db.cart.totals.amount()));
+  $('#cart-weight').text(db.cart.totals.weight().toFixed(2) + ' lbs');
+  $('#cart-shipping').text(formatCurrency(db.cart.totals.shipping()));
+  $('#cart-grand').text(formatCurrency(db.cart.totals.grand()));
+}
+
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -175,6 +251,18 @@ function Customer(image, name, isDomestic){
   this.image = image;
   this.name = name;
   this.isDomestic = isDomestic;
+}
+
+function Cart(){
+  var save = this;
+  this.customer = null;
+  this.products = [];
+  this.totals = {};
+  this.totals.count = function(){return save.products.length;};
+  this.totals.amount = function(){return _.reduce(save.products, function(memo, product){return memo + product.salePrice();}, 0);};
+  this.totals.weight = function(){return _.reduce(save.products, function(memo, product){return memo + product.weight;}, 0);};
+  this.totals.shipping = function(){return this.weight() * (save.customer.isDomestic ? db.constants.domesticShipping : db.constants.internationalShipping);};
+  this.totals.grand = function(){return this.amount() + this.shipping();};
 }
 
 // -------------------------------------------------------------------- //

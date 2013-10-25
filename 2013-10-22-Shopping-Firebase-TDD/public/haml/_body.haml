@@ -22,9 +22,11 @@
         %th % Off
         %th Sale
 .row
-  .small-12.columns
-    #previous.hidden
-    #next.hidden
+  .small-2.columns
+    #previous.hidden.button.tiny.alert.expand Previous
+  .small-2.columns
+    #next.hidden.button.tiny.success.expand Next
+  .small-8.columns
 .row
   .small-2.columns
     %input#customer-image{type: 'text', placeholder: 'image.png'}
@@ -35,3 +37,27 @@
     %input#international{type: 'radio', name: 'address', value: 'international'} International
   .small-2.columns
     %input#add-customer.small.radius.button{type: 'button', value: 'Add Customer'}
+.row
+  .small-2.columns
+    %select#select-customer
+      %option Select Customer
+  .small-10.columns
+    %table#cart
+      %thead
+        %tr
+          %th Name
+          %th Count
+          %th Amount
+          %th Weight
+          %th Shipping
+          %th Total
+      %tbody
+      %tfoot
+        %tr
+          %td
+          %td#cart-count
+          %td#cart-amount
+          %td#cart-weight
+          %td#cart-shipping
+          %td#cart-grand
+    #purchase
