@@ -61,6 +61,7 @@ function turnHandlersOn(){
   $('#previous').on('click', clickNavigation);
   $('#next').on('click', clickNavigation);
   $('#products').on('click', 'img', clickAddItemToCart);
+  $('#purchase').on('click', clickPurchase);
   $('#select-customer').on('change', changeCustomer);
 }
 
@@ -70,6 +71,7 @@ function turnHandlersOff(){
   $('#previous').off('click');
   $('#next').off('click');
   $('#products').off('click');
+  $('#purchase').off('click');
   $('#select-customer').off('change');
 }
 
@@ -129,6 +131,17 @@ function clickAddItemToCart(){
   }
 }
 
+function clickPurchase(){
+  if(db.cart.customer){
+    var products = _.map(db.cart.products, function(p){return {id: p.id, image: p.image, name: p.name, off: p.off, price: p.price, weight: p.weight};});
+    var order = new Order(null, null, db.cart.customer, products, db.cart.totals.amount(), db.cart.totals.shipping(), db.cart.totals.grand());
+    Δorders.push(order);
+
+    db.cart = new Cart();
+    htmlResetCart();
+  }
+}
+
 function changeCustomer(){
   var name = this.value;
   var customer = _.find(db.customers, function(c){return c.name === name;});
@@ -161,6 +174,20 @@ function dbCustomerAdded(snapshot){
 
 function dbOrderAdded(snapshot){
   var obj = snapshot.val();
+
+  var customer = new Customer(obj.customer.image, obj.customer.name, obj.customer.isDomestic);
+  customer.id = obj.customer.id;
+
+  var products = _.map(obj.products, function(p){
+    var product = new Product(p.image, p.name, p.weight, p.price, p.off);
+    product.id = p.id;
+    return product;
+  });
+
+  var order = new Order(snapshot.name(), obj.time, customer, products, obj.total, obj.shipping, obj.grand);
+
+  db.orders.push(order);
+  htmlAddOrderToTable(order);
 }
 
 // -------------------------------------------------------------------- //
@@ -234,6 +261,29 @@ function htmlUpdateCartTotals(){
   $('#cart-grand').text(formatCurrency(db.cart.totals.grand()));
 }
 
+function htmlAddOrderToTable(order){
+  var tr = '<tr><td class="order-id"></td><td class="order-time"></td><td class="order-customer"></td><td class="order-products"><ol class="order-products-list"></ol></td><td class="order-total"></td><td class="order-shipping"></td><td class="order-grand"></td></tr>';
+  var $tr = $(tr);
+
+  var $lis = _.map(order.products, function(p){return $('<li>').text(p.name);});
+
+  $tr.children('.order-id').text(order.id);
+  $tr.children('.order-time').text(order.time);
+  $tr.children('.order-customer').text(order.customer.name);
+  $tr.find('.order-products-list').append($lis);
+  $tr.children('.order-total').text(formatCurrency(order.total));
+  $tr.children('.order-shipping').text(formatCurrency(order.shipping));
+  $tr.children('.order-grand').text(formatCurrency(order.grand));
+
+  $('#orders').append($tr);
+}
+
+function htmlResetCart(){
+  $('#select-customer').val('default');
+  $('#cart tbody').empty();
+  $('#cart tfoot td').text('');
+}
+
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -263,6 +313,16 @@ function Cart(){
   this.totals.weight = function(){return _.reduce(save.products, function(memo, product){return memo + product.weight;}, 0);};
   this.totals.shipping = function(){return this.weight() * (save.customer.isDomestic ? db.constants.domesticShipping : db.constants.internationalShipping);};
   this.totals.grand = function(){return this.amount() + this.shipping();};
+}
+
+function Order(id, time, customer, products, total, shipping, grand){
+  this.id = id || null;
+  this.time = time || moment().format('MMMM Do YYYY, h:mm:ss a');
+  this.customer = customer;
+  this.products = products;
+  this.total = total;
+  this.shipping = shipping;
+  this.grand = grand;
 }
 
 // -------------------------------------------------------------------- //

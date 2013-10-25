@@ -73,8 +73,9 @@
   <div class='row'>
     <div class='small-2 columns'>
       <select id='select-customer'>
-        <option>Select Customer</option>
+        <option value='default'>Select Customer</option>
       </select>
+      <div class='button small radius success expand' id='purchase'>Purchase</div>
     </div>
     <div class='small-10 columns'>
       <table id='cart'>
@@ -100,7 +101,31 @@
           </tr>
         </tfoot>
       </table>
-      <div id='purchase'></div>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='small-12 columns'>
+      <table id='orders'>
+        <thead>
+          <th>Id</th>
+          <th>Time</th>
+          <th>Customer</th>
+          <th>Products</th>
+          <th>Total</th>
+          <th>Shipping</th>
+          <th>Grand</th>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td id='revenue'></td>
+        </tfoot>
+      </table>
     </div>
   </div>
   <script src='/js/vendor/jquery-1.10.2.js'></script>
