@@ -1,5 +1,1 @@
-[
-  {"name":"Bob", "age":30, "gender":"m", "color":"#ffcc33"},
-  {"name":"Sally", "age":22, "gender":"f", "color":"#ccff33"},
-  {"name":"Jill", "age":27, "gender":"f", "color":"#cc33ff"}
-]
+[{"name":"Bobq","gender":"male","age":22,"color":"red"},{"name":"suzy","gender":"female","age":20,"color":"orange"},{"name":"Sally","gender":"female","age":88,"color":"olive"},{"name":"Frank","gender":"male","age":29,"color":"#ff33cc"}]
