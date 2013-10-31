@@ -6,19 +6,19 @@ var Movie = function(genericMovie){
   this.color = genericMovie.color;
   this.rated = genericMovie.rated;
   this.studio = genericMovie.studio;
-  this.gross = genericMovie.gross;
-  this.numTheatres = genericMovie.numTheatres;
+  this.gross = parseFloat(genericMovie.gross);
+  this.numTheatres = parseInt(genericMovie.numTheatres);
 
   this.grossPerTheatre = function(){
     return this.gross / this.numTheatres;
   };
 
   this.grossUSD = function(){
-    return mm.format('USD', mm.floatToAmount(this.gross));
+    return '$' + mm.format('USD', mm.floatToAmount(this.gross));
   };
 
   this.grossPerTheatreUSD = function(){
-    return mm.format('USD', mm.floatToAmount(this.grossPerTheatre()));
+    return '$' + mm.format('USD', mm.floatToAmount(this.grossPerTheatre()));
   };
 };
 

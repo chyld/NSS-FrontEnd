@@ -3,11 +3,40 @@ extends ../template/layout
 block content
   .row
     .small-12.columns
-      h3.subheader Movies Page
+      h3.subheader Movies
   .row
     .small-2.columns
       a.button.tiny.radius.expand(href='/') Home
-    .small-10.columns
+    .small-2.columns
+      a.button.tiny.radius.expand(href='/movies/new') Add Movie
+    .small-8.columns
   .row
     .small-12.columns
-      h3= movies.length
+      - var movie = movies[0]
+      if movie
+        table#movies
+          thead: tr
+            each value, property in movie
+              unless value instanceof Function || property === 'gross'
+                if property === 'numTheatres'
+                  th theatres
+                else
+                  th= property
+            th gross per theatre
+            th gross
+            th
+          tbody
+            each movie in movies
+              tr
+                each value, property in movie
+                  unless value instanceof Function || property === 'gross'
+                    case property
+                      when 'image': td: img(src=value)
+                      when 'color': td(style='background-color:#{value};')
+                      default:      td= value
+                td= movie.grossPerTheatreUSD()
+                td= movie.grossUSD()
+                td
+                  form(action='/movies/#{movie.title}', method='post')
+                    input(type='hidden', name='_method', value='delete')
+                    button.tiny.radius.alert(type='submit') Delete
