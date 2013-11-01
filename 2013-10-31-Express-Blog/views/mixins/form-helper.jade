@@ -1,0 +1,4 @@
+mixin field(colSize, name, text, value, placeholder, autofocus)
+  div(class='small-#{colSize} columns')
+    label(for=name) #{text}:
+    input(value=value, type='text', name=name, placeholder=placeholder, autofocus=autofocus)
