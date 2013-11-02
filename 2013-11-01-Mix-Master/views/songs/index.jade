@@ -8,12 +8,6 @@ block content
       #songs
         each song in songs
           .song
-            h3= song.title
-            audio(src='/audios/#{song.filename}', controls=true)
-            img(src=song.art)
-            p= song.duration
-            p= song.lyrics
-            ul
-              each genre in song.genres
-                li= genre
-            p= song.createdAt
+            a(href='/songs/#{song.id}')
+              img(src=song.art)
+            h6.subheader= song.title
