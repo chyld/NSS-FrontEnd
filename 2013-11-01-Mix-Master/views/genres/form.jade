@@ -1,0 +1,11 @@
+form(action='/genres/#{genre.isNew ? "" : genre.id}', method='post')
+  if !genre.isNew
+    input(type='hidden', name='_method', value='put')
+  fieldset
+    legend= title
+    .row
+      mixin field(4, 'name', 'Name', genre.name, null, true)
+      .small-8.columns
+    .row
+      .small-2.columns.small-offset-8: a.button.radius.alert.small.expand(href='/genres') Cancel
+      .small-2.columns: button.radius.success.small.expand(type='submit') Save Genre

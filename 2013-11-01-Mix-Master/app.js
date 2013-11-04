@@ -1,11 +1,13 @@
 // initializing models
 require('./models/song');
 require('./models/artist');
+require('./models/genre');
 
 // express application
 var home = require('./routes/home');
 var songs = require('./routes/songs');
 var artists = require('./routes/artists');
+var genres = require('./routes/genres');
 
 // modules
 var express = require('express');
@@ -45,6 +47,12 @@ app.delete('/songs/:id', songs.delete);
 app.get('/artists', artists.index);
 app.get('/artists/new', artists.new);
 app.post('/artists', artists.create);
+
+app.get('/genres', genres.index);
+app.get('/genres/new', genres.new);
+app.post('/genres', genres.create);
+app.get('/genres/:id/edit', genres.edit);
+app.put('/genres/:id', genres.update);
 
 // start server
 http.createServer(app).listen(app.get('port'), function(){
