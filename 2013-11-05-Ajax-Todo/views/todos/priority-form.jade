@@ -1,0 +1,8 @@
+form#priority(action='/priorities', method='post')
+  fieldset
+    legend New Priority
+    .row
+      mixin field(6, 'name', 'Name')
+      mixin field(6, 'color', 'Color (#ffcc33 or red)')
+    .row
+      .small-2.small-offset-10.columns: button.radius.success.small.expand(type='submit') Save
