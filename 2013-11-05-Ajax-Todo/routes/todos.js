@@ -1,8 +1,12 @@
+var mongoose = require('mongoose');
+var Priority = mongoose.model('Priority');
 
 /*
- * GET /
+ * GET /todos
  */
 
 exports.index = function(req, res){
-  res.render('todos/index', {title: 'Express'});
+  Priority.find(function(err, priorities){
+    res.render('todos/index', {title: 'Express', priorities: priorities});
+  });
 };
