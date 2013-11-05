@@ -58,10 +58,11 @@ exports.edit = function(req, res){
  */
 
 exports.create = function(req, res){
+  console.log(req.body);
   new Song(req.body).save(function(songErr, song, count){
     if(songErr){
       Genre.find(function(genreErr, genres){
-        res.render('songs/new', {title: 'New Song', song: new Song(), genres: genres, err: songErr});
+        res.render('songs/new', {title: 'New Song', song: new Song(), genres: genres, err: songErr, _: _});
       });
     } else {
       Genre.find().where('_id').in(song.genres).exec(function(err, genres){
