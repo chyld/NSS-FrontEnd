@@ -1,0 +1,12 @@
+table#todos
+  thead
+    tr
+      th Title
+      th Due Date
+      th Priority
+  tbody
+    each todo in todos
+      tr(style='background-color:#{todo.priority.color};')
+        td= todo.title
+        td= moment(todo.dueDate).format('dddd, MMMM Do YYYY')
+        td= todo.priority.name

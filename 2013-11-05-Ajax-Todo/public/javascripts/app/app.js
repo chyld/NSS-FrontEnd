@@ -30,7 +30,7 @@ function submitPriority(e){
 
 function submitTodo(e){
   submitAjaxForm(e, this, function(data, status, jqXHR){
-    console.log(data);
+    htmlAddTodo(data);
   });
 }
 
@@ -42,4 +42,15 @@ function htmlAddPriorityToSelect(priority){
   $('select#priority-select').append($option);
   $('form#priority input').val('');
   $('form#priority input[name="name"]').focus();
+}
+
+function htmlAddTodo(todo){
+  var tr = '<tr><td class="title"></td><td class="due-date"></td><td class="priority"></td></tr>';
+  var $tr = $(tr);
+  $tr.css('background-color', todo.priority.color);
+  $tr.children('.title').text(todo.title);
+  $tr.children('.due-date').text(moment(todo.dueDate).format('dddd, MMMM Do YYYY'));
+  $tr.children('.priority').text(todo.priority.name);
+
+  $('table#todos tbody').append($tr);
 }

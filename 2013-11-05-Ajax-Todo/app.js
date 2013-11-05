@@ -36,6 +36,7 @@ if ('development' == app.get('env')) {
 app.get('/', home.index);
 app.get('/todos', todos.index);
 app.post('/priorities', priorities.create);
+app.post('/todos', todos.create);
 
 // start server
 http.createServer(app).listen(app.get('port'), function(){
