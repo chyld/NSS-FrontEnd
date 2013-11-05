@@ -1,0 +1,15 @@
+extends ../template/layout
+include ../mixins/form-helper
+
+block content
+  .row
+    .small-12.columns
+      h3.subheader= genre.name
+      table#songs
+        thead
+          tr
+            th Song
+        tbody
+          each song in genre.songs
+            tr
+              td: a.button.tiny.radius.expand(href='/songs/#{song.id}')= song.title

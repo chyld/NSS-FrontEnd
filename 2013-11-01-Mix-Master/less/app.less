@@ -1,5 +1,6 @@
 @base: #ffffff;
 @import url(http://fonts.googleapis.com/css?family=Hanalei);
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
 
 body{
   background-color: @base;
@@ -10,34 +11,37 @@ body{
   font-family: 'Hanalei', cursive;
 }
 
-#lyrics{
-  height: 150px;
+.error{
+  font-family: 'Droid Sans Mono', sans-serif;
+
+  .error-master{
+    color: #ff0099;
+    font-size: 13px;
+  }
+  .error-list{
+    color: #6600ff;
+    font-size: 11px;
+    list-style-position: inside;
+  }
 }
 
-.song{
+table{
+  form{
+    margin: 0px;
+  }
+}
+
+.chkbox{
+  margin: 5px;
   float: left;
-  width: 200px;
-  margin: 0px 20px 20px 0px;
-  border: 1px solid #555555;
-  background-color: #555555;
+  width: 150px;
 
-  img{
-    width: 200px;
-    height: 200px;
+  span{
+    padding-left: 3px;
+    color: #339933;
   }
 
-  h6{
-    color: #eeeeee;
-    padding-left: 10px;
-    font-size: 9px;
-  }
-}
-
-.song-metadata{
-  p{
-    margin-top: 15px;
-    font-size: 10px;
-    padding: 10px;
-    border: 1px dashed #555555;
+  input{
+    margin: 0px;
   }
 }

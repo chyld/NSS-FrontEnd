@@ -1,4 +1,7 @@
-if errors
-  ol
-    each error in errors
-      li= error.message
+if err
+  .error
+    .error-master= err.message
+    if err.errors
+      ol
+        each error in err.errors
+          li.error-list= error.message
