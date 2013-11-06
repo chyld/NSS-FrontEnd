@@ -24,7 +24,11 @@ exports.create = function(req, res){
  */
 
 exports.complete = function(req, res){
-  console.log(req.params);
-  console.log(req.body);
-  res.send({});
+  Game.findById(req.params.id, function(err, game){
+    game.guess = req.body.guess;
+    game.didWin = game.guess == game.actual;
+    game.save(function(err, updatedGame){
+      res.send(updatedGame);
+    });
+  });
 };

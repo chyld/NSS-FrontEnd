@@ -22,7 +22,7 @@ function clickCup(){
   var gameId = $('#cups').data('game');
   var url = '/games/' + gameId;
   sendGenericAjaxRequest(url, {guess:guess}, 'post', 'put', null, function(data, status, jqXHR){
-    console.log(data);
+    htmlEndGame(data);
   });
 }
 
@@ -35,6 +35,11 @@ function htmlStartGame(game){
   $('#player').text(game.player);
   $('#cups').attr('data-game', game._id);
   $('#cups').show();
+}
+
+function htmlEndGame(game){
+  $('#cups').hide();
+  $('#player').text(game.didWin);
 }
 
 // ------------------------------------------------------------------------- //
