@@ -1,12 +1,16 @@
 table#todos
   thead
     tr
+      th Completed
       th Title
       th Due Date
       th Priority
+      th Delete
   tbody
     each todo in todos
-      tr(style='background-color:#{todo.priority.color};')
-        td= todo.title
-        td= moment(todo.dueDate).format('dddd, MMMM Do YYYY')
-        td= todo.priority.name
+      tr(data-todo-id=todo.id, style='background-color:#{todo.priority.color};text-decoration:#{todo.completed ? "line-through" : "none"};')
+        td.completed: input(type='checkbox', checked=todo.completed)
+        td.title= todo.title
+        td.due-date= moment(todo.dueDate).format('dddd, MMMM Do YYYY')
+        td.priority= todo.priority.name
+        td.delete: button.tiny.radius.alert Delete
