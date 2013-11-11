@@ -18,6 +18,7 @@ require('./config').initialize(app, RedisStore);
 // routes
 app.get('/', home.index);
 app.post('/users', users.create);
+app.put('/login', users.login);
 
 // start server & socket.io
 var common = require('./sockets/common');

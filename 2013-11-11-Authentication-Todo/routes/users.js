@@ -16,3 +16,29 @@ exports.create = function(req, res){
     });
   });
 }
+
+exports.login = function(req, res){
+  var email = req.body.email;
+  var password = req.body.password;
+
+  User.findOne({email: req.body.email}, function(err, user){
+    if(user){
+      bcrypt.compare(req.body.password, user.password, function(err, result){
+        if(result){
+          req.session.regenerate(function(err){
+            req.session.userId = user.id;
+            req.session.save(function(err){
+              res.send({status: 'ok'});
+            });
+          });
+        } else {
+          req.session.destroy(function(err){
+            res.send({status: 'wrong password'});
+          });
+        }
+      });
+    } else {
+      res.send({status: 'wrong email'});
+    }
+  });
+}
