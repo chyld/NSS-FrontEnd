@@ -20,6 +20,8 @@ app.get('/', home.index);
 app.post('/users', users.create);
 app.put('/login', users.login);
 
+app.get('/temp', users.temp);
+
 // start server & socket.io
 var common = require('./sockets/common');
 var server = require('http').createServer(app);

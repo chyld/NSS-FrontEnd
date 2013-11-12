@@ -40,3 +40,17 @@ exports.login = function(req, res){
     }
   });
 };
+
+
+exports.temp = function(req, res){
+
+  if(req.query.name){
+    req.session.name = req.query.name;
+    req.session.save(function(err){
+      res.send(req.session);
+    });
+  } else {
+    res.send(req.session);
+  }
+
+};
