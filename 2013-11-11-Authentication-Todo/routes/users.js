@@ -26,31 +26,23 @@ exports.login = function(req, res){
           req.session.regenerate(function(err){
             req.session.userId = user.id;
             req.session.save(function(err){
-              res.send({status: 'ok'});
+              res.send({status: 'ok', email: user.email});
             });
           });
         } else {
           req.session.destroy(function(err){
-            res.send({status: 'wrong password'});
+            res.send({status: 'error'});
           });
         }
       });
     } else {
-      res.send({status: 'wrong email'});
+      res.send({status: 'error'});
     }
   });
 };
 
-
-exports.temp = function(req, res){
-
-  if(req.query.name){
-    req.session.name = req.query.name;
-    req.session.save(function(err){
-      res.send(req.session);
-    });
-  } else {
-    res.send(req.session);
-  }
-
+exports.logout = function(req, res){
+  req.session.destroy(function(err){
+    res.send({status: 'ok'});
+  });
 };
