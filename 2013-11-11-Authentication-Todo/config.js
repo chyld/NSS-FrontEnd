@@ -20,7 +20,7 @@ exports.initialize = function(app, RedisStore){
   }));
   app.use(app.router);
 
-  if ('development' == app.get('env')) {
+  if ('development' === app.get('env')) {
     app.use(express.errorHandler());
   }
-}
+};

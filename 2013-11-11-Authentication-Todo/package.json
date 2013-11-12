@@ -20,5 +20,11 @@
     "require-dir": "*",
     "bcrypt": "*",
     "mongoose-unique-validator": "*"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-notify": "*"
   }
 }
