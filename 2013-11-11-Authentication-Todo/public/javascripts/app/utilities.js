@@ -1,3 +1,5 @@
+/* jshint unused: false */
+
 function getValue(selector, fn){
   var value = $(selector).val();
   value = value.trim();
@@ -30,12 +32,14 @@ function sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   options.success = successFn;
   options.error = function(jqXHR, status, error){console.log(error);};
 
-  if(altVerb)
-    if(typeof data === 'string')
+  if(altVerb){
+    if(typeof data === 'string'){
       options.data += '&_method=' + altVerb;
-    else
+    } else {
       options.data._method = altVerb;
+    }
+  }
 
   $.ajax(options);
-  if(event) event.preventDefault();
+  if(event) {event.preventDefault();}
 }

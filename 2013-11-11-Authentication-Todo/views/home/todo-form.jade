@@ -1,0 +1,9 @@
+form#todo(action='/todos', method='post')
+  fieldset
+    legend ToDo
+    .row
+      mixin field(4, 'text', 'title', 'Title')
+      mixin field(4, 'text', 'category', 'Category')
+      mixin field(4, 'text', 'dueDate', 'Due Date')
+    .row
+      .small-2.small-offset-10.columns: button#new-todo.radius.small.expand Create

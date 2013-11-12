@@ -6,12 +6,12 @@ module.exports = function(grunt) {
       options: {
         jshintrc: require('home-dir').directory + '/.jshintrc'
       },
-      all: ['routes/**/*.js', 'models/**/*.js', 'sockets/**/*.js', '*.js']
+      all: ['public/javascripts/app/**/*.js', 'routes/**/*.js', 'models/**/*.js', 'sockets/**/*.js', 'lib/**/*.js', '*.js']
     },
 
     watch: {
       editing: {
-        files: ['routes/**/*.js', 'models/**/*.js', 'sockets/**/*.js', '*.js'],
+        files: ['public/javascripts/app/**/*.js', 'routes/**/*.js', 'models/**/*.js', 'sockets/**/*.js', 'lib/**/*.js', '*.js'],
         tasks: ['jshint']
       }
     }

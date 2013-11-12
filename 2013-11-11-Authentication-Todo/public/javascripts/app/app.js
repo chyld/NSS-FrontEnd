@@ -1,3 +1,5 @@
+/* global document, sendAjaxRequest, window, io */
+
 $(document).ready(initialize);
 
 var socket;
@@ -9,6 +11,8 @@ function initialize(){
   $('#register').on('click', clickRegister);
   $('#login').on('click', clickLogin);
   $('#users input[type="checkbox"]').on('click', clickChangeAdmin);
+  $('form#todo').on('submit', submitTodo);
+  $('table#todos').on('click', 'input[type="checkbox"]', clickChangeIsComplete);
 }
 
 // ------------------------------------------------------------------------- //
@@ -54,6 +58,23 @@ function clickChangeAdmin(){
   });
 }
 
+
+function submitTodo(e){
+  var url = $(this).attr('action');
+  var data = $(this).serialize();
+  sendAjaxRequest(url, data, 'post', null, e, function(data){
+    htmlAddTodo(data);
+  });
+}
+
+function clickChangeIsComplete(){
+  var id = $(this).parent().parent().data('id');
+  var url = '/todos/' + id;
+  sendAjaxRequest(url, {}, 'post', 'put', null, function(data){
+    console.log(data);
+  });
+}
+
 // ------------------------------------------------------------------------- //
 // ------------------------------------------------------------------------- //
 // ------------------------------------------------------------------------- //
@@ -76,6 +97,8 @@ function htmlUpdateLoginStatus(result){
     $('#authentication-button').attr('data-email', result.email);
     $('#authentication-button').text(result.email);
     $('#authentication-button').addClass('alert');
+    $('#the-application').removeClass('hidden');
+    window.location.href = '/';
   }
 }
 
@@ -83,6 +106,13 @@ function htmlLogout(data){
   $('#authentication-button').attr('data-email', 'anonymous');
   $('#authentication-button').text('Login | Sign Up');
   $('#authentication-button').removeClass('alert');
+  $('#the-application').addClass('hidden');
+  window.location.href = '/';
+}
+
+function htmlAddTodo(todo){
+  var tr = '<tr data-id="' + todo._id + '"><td><input type="checkbox"></td><td>' + todo.title + '</td><td>' + todo.category + '</td><td>' + todo.dueDate + '</td></tr>';
+  $('table#todos').append(tr);
 }
 
 // ------------------------------------------------------------------------- //
@@ -90,8 +120,8 @@ function htmlLogout(data){
 // ------------------------------------------------------------------------- //
 
 function initializeSocketIO(){
-  var port = location.port ? location.port : '80';
-  var url = location.protocol + '//' + location.hostname + ':' + port + '/app';
+  var port = window.location.port ? window.location.port : '80';
+  var url = window.location.protocol + '//' + window.location.hostname + ':' + port + '/app';
 
   socket = io.connect(url);
   socket.on('connected', socketConnected);

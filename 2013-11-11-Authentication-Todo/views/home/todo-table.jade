@@ -1,0 +1,13 @@
+table#todos
+  thead
+    th Complete?
+    th Title
+    th Category
+    th Due Date
+  tbody
+    each todo in todos
+      tr(data-id=todo.id)
+        td: input(type='checkbox', checked=todo.isComplete)
+        td= todo.title
+        td= todo.category
+        td= todo.dueDate

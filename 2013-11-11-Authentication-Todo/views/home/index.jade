@@ -6,3 +6,12 @@ block content
     .small-6.columns
     .small-6.columns
       include authentication-form
+  .row
+    .small-12.columns
+      #the-application(class=user ? '' : 'hidden')
+        .row
+          .small-12.columns
+            include todo-form
+        .row
+          .small-12.columns
+            include todo-table
