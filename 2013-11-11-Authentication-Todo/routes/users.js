@@ -46,3 +46,35 @@ exports.logout = function(req, res){
     res.send({status: 'ok'});
   });
 };
+
+exports.makeMeAnAdmin = function(req, res){
+  if(req.query.password === '12345'){
+    res.locals.user.isAdmin = true;
+    res.locals.user.save(function(err, user){
+      res.send(user);
+    });
+  } else {
+    res.send('sorry!');
+  }
+};
+
+exports.admin = function(req, res){
+  User.find(function(err, users){
+    res.render('users/admin', {title: 'Express', users: users});
+  });
+};
+
+exports.delete = function(req, res){
+  User.findByIdAndRemove(req.params.id, function(err, user){
+    res.redirect('/admin');
+  });
+};
+
+exports.update = function(req, res){
+  User.findById(req.params.id, function(err, user){
+    user.isAdmin = !user.isAdmin;
+    user.save(function(err, user){
+      res.send({});
+    });
+  });
+};

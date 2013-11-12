@@ -1,8 +1,7 @@
 var express = require('express');
 var path = require('path');
 var less = require('express-less');
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+var middleware = require('./lib/middleware');
 
 exports.initialize = function(app, RedisStore){
   app.set('port', process.env.PORT || 3000);
@@ -22,19 +21,7 @@ exports.initialize = function(app, RedisStore){
     cookie: { maxAge: 60 * 60 * 1000 }
   }));
 
-  app.use(function(req, res, next){
-    if(req.session.userId){
-      User.findById(req.session.userId, function(err, user){
-        if(user){
-          res.locals.user = user;
-          next();
-        }
-      });
-    } else {
-      next();
-    }
-  });
-
+  app.use(middleware.findUser);
   app.use(app.router);
 
   if ('development' === app.get('env')) {

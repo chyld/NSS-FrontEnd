@@ -8,6 +8,7 @@ function initialize(){
   $('#authentication-button').on('click', clickAuthenticationButton);
   $('#register').on('click', clickRegister);
   $('#login').on('click', clickLogin);
+  $('#users input[type="checkbox"]').on('click', clickChangeAdmin);
 }
 
 // ------------------------------------------------------------------------- //
@@ -44,6 +45,13 @@ function clickAuthenticationButton(e){
   }
 
   e.preventDefault();
+}
+
+function clickChangeAdmin(){
+  var url = $(this).parent().next().find('form').attr('action');
+  sendAjaxRequest(url, {}, 'post', 'put', null, function(data){
+    console.log(data);
+  });
 }
 
 // ------------------------------------------------------------------------- //
