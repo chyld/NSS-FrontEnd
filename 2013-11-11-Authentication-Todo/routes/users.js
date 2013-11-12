@@ -9,18 +9,16 @@ exports.create = function(req, res){
   bcrypt.hash(req.body.password, 10, function(err, hash){
     user.password = hash;
     user.save(function(err, user){
-      if(err)
+      if(err){
         res.send({status: 'error'});
-      else
+      } else {
         res.send({status: 'ok'});
+      }
     });
   });
-}
+};
 
 exports.login = function(req, res){
-  var email = req.body.email;
-  var password = req.body.password;
-
   User.findOne({email: req.body.email}, function(err, user){
     if(user){
       bcrypt.compare(req.body.password, user.password, function(err, result){
@@ -41,4 +39,4 @@ exports.login = function(req, res){
       res.send({status: 'wrong email'});
     }
   });
-}
+};
