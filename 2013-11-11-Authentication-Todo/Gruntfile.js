@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        jshintrc: '/home/chyld/.jshintrc'
+        jshintrc: require('home-dir').directory + '/.jshintrc'
       },
       all: ['routes/**/*.js', 'models/**/*.js', 'sockets/**/*.js', '*.js']
     },
