@@ -1,11 +1,14 @@
 var express = require('express');
 var path = require('path');
 var less = require('express-less');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
 exports.initialize = function(app, RedisStore){
   app.set('port', process.env.PORT || 3000);
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'jade');
+
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -18,6 +21,20 @@ exports.initialize = function(app, RedisStore){
     secret: 'change-this-to-a-super-secret-message',
     cookie: { maxAge: 60 * 60 * 1000 }
   }));
+
+  app.use(function(req, res, next){
+    if(req.session.userId){
+      User.findById(req.session.userId, function(err, user){
+        if(user){
+          res.locals.user = user;
+          next();
+        }
+      });
+    } else {
+      next();
+    }
+  });
+
   app.use(app.router);
 
   if ('development' === app.get('env')) {
