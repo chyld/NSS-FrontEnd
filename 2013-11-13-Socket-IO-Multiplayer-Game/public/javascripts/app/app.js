@@ -35,5 +35,14 @@ function socketConnected(data){
 }
 
 function socketPlayerJoined(data){
-  console.log(data);
+  $('.cell').css('background-color', 'white');
+  $('.cell').text('');
+
+  for(var i = 0; i < data.players.length; i++){
+    htmlAddPlayer(data.players[i]);
+  }
+}
+
+function htmlAddPlayer(player){
+  $('.cell[data-x="' + player.x + '"][data-y="' + player.y + '"]').css('background-color', player.color).text(player.name);
 }
