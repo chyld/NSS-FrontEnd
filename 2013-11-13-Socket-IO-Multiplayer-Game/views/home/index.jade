@@ -1,14 +1,27 @@
 extends ../template/layout
 
+
 block content
+  - var numbers = [0,1,2,3,4,5,6,7,8,9];
+
   .row
     small-12.columns
       h1.subheader Multplayer, Socket.io Game
   .row
     .small-2.columns
-      input#player(type='text', name='player')
+      input#name(type='text', name='name', placeholder='easy')
     .small-2.columns
-      input#color(type='text', name='color')
+      input#player(type='text', name='player', placeholder='bob')
+    .small-2.columns
+      input#color(type='text', name='color', placeholder='red')
     .small-2.columns
       button#start.small.expand Start
-    .small-6.columns
+    .small-4.columns
+  .row
+    .small-12.columns
+      table#game.hidden
+        tbody
+          each y in numbers
+            tr
+              each x in numbers
+                td.cell(data-x=x, data-y=y)

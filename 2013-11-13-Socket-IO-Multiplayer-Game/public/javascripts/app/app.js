@@ -1,10 +1,11 @@
-/* global document, window, io */
+/* global getValue, document, window, io */
 
 $(document).ready(initialize);
 
 var socket;
 var player;
 var color;
+var name;
 
 function initialize(){
   $(document).foundation();
@@ -13,9 +14,11 @@ function initialize(){
 }
 
 function clickStart(){
+  name = getValue('#name');
   player = getValue('#player');
   color = getValue('#color');
-  socket.emit('startgame', {player:player, color:color});
+  $('table#game').removeClass('hidden');
+  socket.emit('startgame', {name:name, player:player, color:color});
 }
 
 function initializeSocketIO(){
