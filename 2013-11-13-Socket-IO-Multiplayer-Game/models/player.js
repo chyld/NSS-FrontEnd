@@ -8,6 +8,7 @@ function randomize(){
 var Player = mongoose.Schema({
   name      : String,
   color     : String,
+  socketId  : String,
   x         : {type: Number, default: randomize},
   y         : {type: Number, default: randomize},
   health    : {type: Number, default: 100},

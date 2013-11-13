@@ -27,8 +27,13 @@ function initializeSocketIO(){
 
   socket = io.connect(url);
   socket.on('connected', socketConnected);
+  socket.on('playerjoined', socketPlayerJoined);
 }
 
 function socketConnected(data){
+  console.log(data);
+}
+
+function socketPlayerJoined(data){
   console.log(data);
 }
