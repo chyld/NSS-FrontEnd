@@ -2,24 +2,56 @@
 
 $(document).ready(initialize);
 
-var socket;
-var player;
-var color;
-var name;
+var socket, game, player, color;
 
 function initialize(){
   $(document).foundation();
   initializeSocketIO();
   $('#start').on('click', clickStart);
+  $('body').on('keyup', keyupMove);
+}
+
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+
+function keyupMove(e){
+  var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.keyCode;});
+
+  if(isArrow){
+    var x = $('.cell:contains(' + player + ')').data('x');
+    var y = $('.cell:contains(' + player + ')').data('y');
+
+    switch(e.keyCode){
+      case 38:
+        y--;
+        break;
+      case 40:
+        y++;
+        break;
+      case 37:
+        x--;
+        break;
+      case 39:
+        x++;
+        break;
+    }
+
+    socket.emit('playermoved', {game:game, player:player, x:x, y:y});
+  }
 }
 
 function clickStart(){
-  name = getValue('#name');
+  game = getValue('#game');
   player = getValue('#player');
   color = getValue('#color');
   $('table#game').removeClass('hidden');
-  socket.emit('startgame', {name:name, player:player, color:color});
+  socket.emit('startgame', {game:game, player:player, color:color});
 }
+
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
 
 function initializeSocketIO(){
   var port = window.location.port ? window.location.port : '80';
@@ -35,14 +67,31 @@ function socketConnected(data){
 }
 
 function socketPlayerJoined(data){
-  $('.cell').css('background-color', 'white');
-  $('.cell').text('');
+  htmlResetBoard();
 
   for(var i = 0; i < data.players.length; i++){
     htmlAddPlayer(data.players[i]);
   }
 }
 
-function htmlAddPlayer(player){
-  $('.cell[data-x="' + player.x + '"][data-y="' + player.y + '"]').css('background-color', player.color).text(player.name);
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+
+function htmlResetBoard(){
+  $('.cell .health').css('background-color', 'white');
+  $('.cell .player').css('background-color', 'white');
+  $('.cell .player').text('');
 }
+
+function htmlAddPlayer(player){
+  var $cell = $('.cell[data-x="' + player.x + '"][data-y="' + player.y + '"]');
+  $cell.find('.health').css('background-color', 'black');
+  $cell.find('.health').css('width', player.health + '%');
+  $cell.find('.player').css('background-color', player.color);
+  $cell.find('.player').text(player.name);
+}
+
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
