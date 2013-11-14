@@ -2,7 +2,7 @@
 
 $(document).ready(initialize);
 
-var socket, game, player, color;
+var socket, game, player, color, players = [];
 
 function initialize(){
   $(document).foundation();
@@ -18,26 +18,30 @@ function initialize(){
 function keyupMove(e){
   var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.keyCode;});
 
+  if(e.keyCode === 13){
+    var prey = findPrey();
+    socket.emit('attack', {game:game, predator:player, prey:prey.name});
+  }
+
   if(isArrow){
-    var x = $('.cell:contains(' + player + ')').data('x');
-    var y = $('.cell:contains(' + player + ')').data('y');
+    var p = findPredator();
 
     switch(e.keyCode){
       case 38:
-        y--;
+        p.y--;
         break;
       case 40:
-        y++;
+        p.y++;
         break;
       case 37:
-        x--;
+        p.x--;
         break;
       case 39:
-        x++;
+        p.x++;
         break;
     }
 
-    socket.emit('playermoved', {game:game, player:player, x:x, y:y});
+    socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
   }
 }
 
@@ -48,6 +52,19 @@ function clickStart(){
   $('table#game').removeClass('hidden');
   $('#current-player').css('color', color).text('::' + player);
   socket.emit('startgame', {game:game, player:player, color:color});
+}
+
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+
+function findPredator(){
+  return _.find(players, function(p){return p.name === player;});
+}
+
+function findPrey(){
+  var predator = findPredator();
+  return _.find(players, function(p){return p.x === predator.x && p.y === predator.y && p.name !== player;});
 }
 
 // ------------------------------------------------------------------------- //
@@ -68,6 +85,7 @@ function socketConnected(data){
 }
 
 function socketPlayerJoined(data){
+  players = data.players;
   htmlResetBoard();
 
   for(var i = 0; i < data.players.length; i++){

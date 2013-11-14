@@ -9,6 +9,7 @@ exports.connection = function(socket){
   socket.on('disconnect', socketDisconnect);
   socket.on('startgame', socketStartGame);
   socket.on('playermoved', socketPlayerMoved);
+  socket.on('attack', socketAttack);
 };
 
 function socketStartGame(data){
@@ -39,6 +40,10 @@ function socketPlayerMoved(data){
     function(player,fn){m.findGame(data.game,fn);},
     function(game,fn){m.emitPlayers(io.sockets,game.players,fn);}
   ]);
+}
+
+function socketAttack(data){
+  console.log(data);
 }
 
 function socketDisconnect(data){
