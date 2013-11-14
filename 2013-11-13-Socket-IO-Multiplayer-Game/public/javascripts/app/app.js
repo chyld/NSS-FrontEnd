@@ -89,7 +89,9 @@ function socketPlayerJoined(data){
   htmlResetBoard();
 
   for(var i = 0; i < data.players.length; i++){
-    htmlAddPlayer(data.players[i]);
+    if(data.players[i].health > 0){
+      htmlAddPlayer(data.players[i]);
+    }
   }
 }
 

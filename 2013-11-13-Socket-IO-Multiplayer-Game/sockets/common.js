@@ -44,6 +44,13 @@ function socketPlayerMoved(data){
 
 function socketAttack(data){
   console.log(data);
+
+  async.waterfall([
+    function(fn){m.findPlayer(data.prey,fn);},
+    function(player,fn){m.playerAttacked(player,fn);},
+    function(player,fn){m.findGame(data.game,fn);},
+    function(game,fn){m.emitPlayers(io.sockets,game.players,fn);}
+  ]);
 }
 
 function socketDisconnect(data){

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Game = mongoose.model('Game');
 var Player = mongoose.model('Player');
+var __ = require('lodash');
 
 exports.findGame = function(name, fn){
   Game.findOne({name:name}).populate('players').exec(function(err, game){
@@ -39,6 +40,13 @@ exports.resetPlayer = function(player, socket, fn){
 exports.updateCoordinates = function(player, x, y, fn){
   player.x = x;
   player.y = y;
+  player.save(function(err, player){
+    fn(err, player);
+  });
+};
+
+exports.playerAttacked = function(player, fn){
+  player.health -= __.sample(__.range(10));
   player.save(function(err, player){
     fn(err, player);
   });
