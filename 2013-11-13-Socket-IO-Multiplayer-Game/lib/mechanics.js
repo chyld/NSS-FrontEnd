@@ -36,6 +36,14 @@ exports.resetPlayer = function(player, socket, fn){
   });
 };
 
+exports.updateCoordinates = function(player, x, y, fn){
+  player.x = x;
+  player.y = y;
+  player.save(function(err, player){
+    fn(err, player);
+  });
+};
+
 exports.attachPlayer = function(game, player, fn){
   game.players.push(player);
   game.save(function(err, game){

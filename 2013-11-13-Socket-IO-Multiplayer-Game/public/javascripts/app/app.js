@@ -46,6 +46,7 @@ function clickStart(){
   player = getValue('#player');
   color = getValue('#color');
   $('table#game').removeClass('hidden');
+  $('#current-player').css('color', color).text('::' + player);
   socket.emit('startgame', {game:game, player:player, color:color});
 }
 

@@ -32,6 +32,13 @@ function socketStartGame(data){
 
 function socketPlayerMoved(data){
   console.log(data);
+
+  async.waterfall([
+    function(fn){m.findPlayer(data.player,fn);},
+    function(player,fn){m.updateCoordinates(player,data.x,data.y,fn);},
+    function(player,fn){m.findGame(data.game,fn);},
+    function(game,fn){m.emitPlayers(io.sockets,game.players,fn);}
+  ]);
 }
 
 function socketDisconnect(data){
