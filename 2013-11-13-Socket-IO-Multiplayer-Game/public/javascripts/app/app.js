@@ -2,7 +2,7 @@
 
 $(document).ready(initialize);
 
-var socket, game, player, color, players = [];
+var socket, game, player, color, players = [], potions = [];
 
 function initialize(){
   $(document).foundation();
@@ -18,7 +18,7 @@ function initialize(){
 function keyupMove(e){
   var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.keyCode;});
 
-  if(e.keyCode === 13){
+  if(e.keyCode === 72){
     var prey = findPrey();
     socket.emit('attack', {game:game, predator:player, prey:prey.name});
   }
@@ -78,6 +78,7 @@ function initializeSocketIO(){
   socket = io.connect(url);
   socket.on('connected', socketConnected);
   socket.on('playerjoined', socketPlayerJoined);
+  socket.on('potions', socketPotions);
 }
 
 function socketConnected(data){
@@ -86,31 +87,52 @@ function socketConnected(data){
 
 function socketPlayerJoined(data){
   players = data.players;
-  htmlResetBoard();
+  htmlDrawBoard();
+}
 
-  for(var i = 0; i < data.players.length; i++){
-    if(data.players[i].health > 0){
-      htmlAddPlayer(data.players[i]);
-    }
-  }
+function socketPotions(data){
+  potions = data.potions;
+  htmlDrawBoard();
 }
 
 // ------------------------------------------------------------------------- //
 // ------------------------------------------------------------------------- //
 // ------------------------------------------------------------------------- //
 
+function htmlDrawBoard(){
+  htmlResetBoard();
+
+  for(var i = 0; i < players.length; i++){
+    if(players[i].health > 0){
+      htmlAddPlayer(players[i]);
+    }
+  }
+
+  for(var j = 0; j < potions.length; j++){
+    htmlAddPotion(potions[j]);
+  }
+}
+
 function htmlResetBoard(){
   $('.cell .health').css('background-color', 'white');
   $('.cell .player').css('background-color', 'white');
+  $('.cell .potion').css('background-color', 'white');
   $('.cell .player').text('');
 }
 
 function htmlAddPlayer(player){
   var $cell = $('.cell[data-x="' + player.x + '"][data-y="' + player.y + '"]');
-  $cell.find('.health').css('background-color', 'black');
-  $cell.find('.health').css('width', player.health + '%');
-  $cell.find('.player').css('background-color', player.color);
-  $cell.find('.player').text(player.name);
+  var playerClass = ($cell.find('.p1 .player').text() === '') ? '.p1' : '.p2';
+
+  $cell.find(playerClass + ' .health').css('background-color', 'black');
+  $cell.find(playerClass + ' .health').css('width', player.health + '%');
+  $cell.find(playerClass + ' .player').css('background-color', player.color);
+  $cell.find(playerClass + ' .player').text(player.name);
+}
+
+function htmlAddPotion(potion){
+  var $cell = $('.cell[data-x="' + potion.x + '"][data-y="' + potion.y + '"]');
+  $cell.find('.potion').css('background-color', 'green');
 }
 
 // ------------------------------------------------------------------------- //

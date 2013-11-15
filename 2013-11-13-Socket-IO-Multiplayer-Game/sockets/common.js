@@ -2,6 +2,7 @@ var async = require('async');
 var __ = require('lodash');
 var m = require('../lib/mechanics');
 var io;
+var timer;
 
 exports.connection = function(socket){
   io = this;
@@ -17,39 +18,37 @@ function socketStartGame(data){
   var socket = this;
 
   async.waterfall([
-    function(fn){m.findGame(data.game,fn);},
-    function(game,fn){if(!game){m.newGame(data.game,fn);}else{fn(null,game);}},
-    function(game,fn){storage.game=game;fn();},
-    function(fn){m.findPlayer(data.player,fn);},
-    function(player,fn){if(!player){m.newPlayer(data.player,data.color,fn);}else{fn(null,player);}},
-    function(player,fn){m.resetPlayer(player,socket,fn);},
-    function(player,fn){storage.player=player;fn();},
-    function(fn){fn(null,__.any(storage.game.players,function(p){return p.id===storage.player.id;}));},
-    function(isFound,fn){if(!isFound){m.attachPlayer(storage.game,storage.player,fn);}else{fn(null,storage.game);}},
-    function(game,fn){m.findGame(data.game,fn);},
-    function(game,fn){m.emitPlayers(io.sockets,game.players,fn);}
+    function(next){m.findGame(data.game,next);},
+    function(game,next){if(!game){m.newGame(data.game,next);}else{next(null,game);}},
+    function(game,next){storage.game=game;next();},
+    function(next){m.findPlayer(data.player,next);},
+    function(player,next){if(!player){m.newPlayer(data.player,data.color,next);}else{next(null,player);}},
+    function(player,next){m.resetPlayer(player,socket,next);},
+    function(player,next){storage.player=player;next();},
+    function(next){next(null,__.any(storage.game.players,function(p){return p.id===storage.player.id;}));},
+    function(isFound,next){if(!isFound){m.attachPlayer(storage.game,storage.player,next);}else{next(null,storage.game);}},
+    function(game,next){m.findGame(data.game,next);},
+    function(game,next){storage.game=game;next();},
+    function(next){m.createTimer(timer,m,storage.game,io,next);},
+    function(next){m.emitMessage(io.sockets,storage.game.players,'playerjoined',{players:storage.game.players},next);}
   ]);
 }
 
 function socketPlayerMoved(data){
-  console.log(data);
-
   async.waterfall([
-    function(fn){m.findPlayer(data.player,fn);},
-    function(player,fn){m.updateCoordinates(player,data.x,data.y,fn);},
-    function(player,fn){m.findGame(data.game,fn);},
-    function(game,fn){m.emitPlayers(io.sockets,game.players,fn);}
+    function(next){m.findPlayer(data.player,next);},
+    function(player,next){m.updateCoordinates(player,data.x,data.y,next);},
+    function(player,next){m.findGame(data.game,next);},
+    function(game,next){m.emitMessage(io.sockets,game.players,'playerjoined',{players:game.players},next);}
   ]);
 }
 
 function socketAttack(data){
-  console.log(data);
-
   async.waterfall([
-    function(fn){m.findPlayer(data.prey,fn);},
-    function(player,fn){m.playerAttacked(player,fn);},
-    function(player,fn){m.findGame(data.game,fn);},
-    function(game,fn){m.emitPlayers(io.sockets,game.players,fn);}
+    function(next){m.findPlayer(data.prey,next);},
+    function(player,next){m.playerAttacked(player,next);},
+    function(player,next){m.findGame(data.game,next);},
+    function(game,next){m.emitMessage(io.sockets,game.players,'playerjoined',{players:game.players},next);}
   ]);
 }
 
